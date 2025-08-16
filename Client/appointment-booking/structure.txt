@@ -1,0 +1,46 @@
+src/
+├── assets/                # Images, icons, etc.
+├── components/            # Reusable components (Navbar, Button, Card, etc.)
+│   └── common/
+│       ├── Navbar.jsx
+│       ├── Footer.jsx
+│       └── ProtectedRoute.jsx
+|── components/
+│   └── navbars/
+│       ├── AdminNavbar.jsx
+│       ├── ServiceProviderNavbar.jsx
+│       └── UserNavbar.jsx
+├── context/               # Auth, user roles, etc.
+│   └── AuthContext.jsx
+├── layouts/               # Layouts for different dashboards
+│   ├── AdminLayout.jsx
+│   ├── ServiceProviderLayout.jsx
+│   └── UserLayout.jsx
+├── pages/
+│   ├── admin/
+│   │   ├── AppointmentList.jsx
+│   │   └── UserList.jsx
+│   ├── serviceProvider/
+│   │   └── AppointmentList.jsx
+│   ├── user/
+│   │   ├── ServicesList.jsx
+│   │   └── MyAppointments.jsx
+│   ├── auth/
+│   │   ├── Login.jsx
+│   │   └── Register.jsx
+│   └── LandingPage.jsx
+├── routes/                # All route definitions (React Router config)
+│   └── AppRouter.jsx
+├── services/              # API calls (axios or fetch)
+│   ├── authService.js
+│   ├── appointmentService.js
+│   └── userService.js
+├── utils/                 # Helper functions
+│   └── roleBasedAccess.js
+├── App.jsx
+└── main.jsx
+
+
+same navbar kch sections change bs 
+or my appointments progile m denge 
+

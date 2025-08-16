@@ -1,0 +1,194 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Project net\\AppointmentBookingSystem(old)\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|c:\\project net\\appointmentbookingsystem(old)\\appointmentbookingsystem\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|solutionrelative:appointmentbookingsystem\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|c:\\project net\\appointmentbookingsystem(old)\\appointmentbookingsystem\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|solutionrelative:appointmentbookingsystem\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|c:\\project net\\appointmentbookingsystem(old)\\appointmentbookingsystem\\models\\service.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|solutionrelative:appointmentbookingsystem\\models\\service.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|c:\\project net\\appointmentbookingsystem(old)\\appointmentbookingsystem\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|solutionrelative:appointmentbookingsystem\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|c:\\project net\\appointmentbookingsystem(old)\\appointmentbookingsystem\\models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|solutionrelative:appointmentbookingsystem\\models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|c:\\project net\\appointmentbookingsystem(old)\\appointmentbookingsystem\\models\\serviceowner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|solutionrelative:appointmentbookingsystem\\models\\serviceowner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|c:\\project net\\appointmentbookingsystem(old)\\appointmentbookingsystem\\controllers\\serviceownercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|solutionrelative:appointmentbookingsystem\\controllers\\serviceownercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|c:\\project net\\appointmentbookingsystem(old)\\appointmentbookingsystem\\viewmodel\\registerbusinessvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|solutionrelative:appointmentbookingsystem\\viewmodel\\registerbusinessvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|c:\\project net\\appointmentbookingsystem(old)\\appointmentbookingsystem\\models\\servicecategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|solutionrelative:appointmentbookingsystem\\models\\servicecategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|c:\\project net\\appointmentbookingsystem(old)\\appointmentbookingsystem\\models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{25215AFC-E6D7-4A7D-8553-30E34C293CEC}|AppointmentBookingSystem\\AppointmentBookingSystem.csproj|solutionrelative:appointmentbookingsystem\\models\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "RegisterBusinessVM.cs",
+              "DocumentMoniker": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\ViewModel\\RegisterBusinessVM.cs",
+              "RelativeDocumentMoniker": "AppointmentBookingSystem\\ViewModel\\RegisterBusinessVM.cs",
+              "ToolTip": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\ViewModel\\RegisterBusinessVM.cs",
+              "RelativeToolTip": "AppointmentBookingSystem\\ViewModel\\RegisterBusinessVM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-15T12:30:41.983Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "AppointmentBookingSystem\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "AppointmentBookingSystem\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T11:35:13.703Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ServiceOwnerController.cs",
+              "DocumentMoniker": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\Controllers\\ServiceOwnerController.cs",
+              "RelativeDocumentMoniker": "AppointmentBookingSystem\\Controllers\\ServiceOwnerController.cs",
+              "ToolTip": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\Controllers\\ServiceOwnerController.cs",
+              "RelativeToolTip": "AppointmentBookingSystem\\Controllers\\ServiceOwnerController.cs",
+              "ViewState": "AgIAADQAAAAAAAAAAAAUwHcAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-10T01:09:05.917Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "AppointmentBookingSystem\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\Controllers\\UserController.cs",
+              "RelativeToolTip": "AppointmentBookingSystem\\Controllers\\UserController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJoAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-06T15:41:07.079Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "AppointmentBookingSystem\\Controllers\\AdminController.cs",
+              "ToolTip": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "AppointmentBookingSystem\\Controllers\\AdminController.cs",
+              "ViewState": "AgIAAJcAAAAAAAAAAAAkwA0AAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-06T15:40:01.805Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Service.cs",
+              "DocumentMoniker": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\Models\\Service.cs",
+              "RelativeDocumentMoniker": "AppointmentBookingSystem\\Models\\Service.cs",
+              "ToolTip": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\Models\\Service.cs",
+              "RelativeToolTip": "AppointmentBookingSystem\\Models\\Service.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAzwAgAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-05T21:07:32.39Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ServiceOwner.cs",
+              "DocumentMoniker": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\Models\\ServiceOwner.cs",
+              "RelativeDocumentMoniker": "AppointmentBookingSystem\\Models\\ServiceOwner.cs",
+              "ToolTip": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\Models\\ServiceOwner.cs",
+              "RelativeToolTip": "AppointmentBookingSystem\\Models\\ServiceOwner.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-05T20:59:39.117Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Appointment.cs",
+              "DocumentMoniker": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\Models\\Appointment.cs",
+              "RelativeDocumentMoniker": "AppointmentBookingSystem\\Models\\Appointment.cs",
+              "ToolTip": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\Models\\Appointment.cs",
+              "RelativeToolTip": "AppointmentBookingSystem\\Models\\Appointment.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAxwBUAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-05T20:57:16.738Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ServiceCategory.cs",
+              "DocumentMoniker": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\Models\\ServiceCategory.cs",
+              "RelativeDocumentMoniker": "AppointmentBookingSystem\\Models\\ServiceCategory.cs",
+              "ToolTip": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\Models\\ServiceCategory.cs",
+              "RelativeToolTip": "AppointmentBookingSystem\\Models\\ServiceCategory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-05T16:38:23.793Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ApplicationUser.cs",
+              "DocumentMoniker": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\Models\\ApplicationUser.cs",
+              "RelativeDocumentMoniker": "AppointmentBookingSystem\\Models\\ApplicationUser.cs",
+              "ToolTip": "C:\\Project net\\AppointmentBookingSystem(old)\\AppointmentBookingSystem\\Models\\ApplicationUser.cs",
+              "RelativeToolTip": "AppointmentBookingSystem\\Models\\ApplicationUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-05T15:58:37.095Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
