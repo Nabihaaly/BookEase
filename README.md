@@ -226,7 +226,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Nabiha Aly**
 - GitHub: [@Nabihaaly](https://github.com/Nabihaaly)
-- LinkedIn: [[Your LinkedIn Profile](https://www.linkedin.com/in/nabiha-ali-a74199256/)]
+- LinkedIn: [[@Nabihaali](https://www.linkedin.com/in/nabiha-ali-a74199256/)]
 
 ## 📞 Support
 
