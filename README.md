@@ -43,6 +43,7 @@ BookEase - Appointment Booking System/
 │   │   ├── Data/
 │   │   ├── Models/
 │   │   └── ViewModel/
+│   │   └── DTO/
 │   ├── AppointmentBookingSystem.sln
 │   └── README.md
 │
