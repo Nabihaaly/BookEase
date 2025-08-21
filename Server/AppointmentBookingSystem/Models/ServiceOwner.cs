@@ -21,3 +21,8 @@ namespace AppointmentBookingSystem.Models
     }
 
 }
+
+
+ //ServiceCollection owner kayu end m list kyn hai how it works 
+ //   kynku nahi fetch krrha serviceOwner, category etc ?
+ //   DTO bnany hain kuia ksi chez kahy?

@@ -1,35 +1,39 @@
-﻿    using AppointmentBookingSystem.Data;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.AspNetCore.Identity;
-    using AppointmentBookingSystem.Models;
-    using Microsoft.AspNetCore.Identity.UI.Services;
+﻿using AppointmentBookingSystem.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using AppointmentBookingSystem.Models;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Builder;
+using System.Text.Json.Serialization;
+using AppointmentBookingSystem.Profiles;
 //using AppointmentBookingSystem.Utility; // for SD static class
 
 var builder = WebApplication.CreateBuilder(args);
 
-    // Add services to the container.
-    builder.Services.AddControllers(); // ✅ This adds only API-style controllers
+// Add services to the container.
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
-    builder.Services.AddDbContext<ApplicationDbContext>(
-        options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-    );
-    //builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-    builder.Services
-        .AddIdentity<ApplicationUser, IdentityRole>(options =>
-        {
-            options.Password.RequiredLength = 6;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequireDigit = false;
-            options.Password.RequireUppercase = false;
-            options.Password.RequireLowercase = false;
-        })
-        .AddEntityFrameworkStores<ApplicationDbContext>()
-        .AddDefaultTokenProviders();
-    builder.Services.AddScoped<IEmailSender,EmailSender>();
+builder.Services
+    .AddIdentity<ApplicationUser, IdentityRole>(options =>
+    {
+        options.Password.RequiredLength = 6;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireDigit = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireLowercase = false;
+    })
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+
+// ✅ Fixed AutoMapper registration
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddAuthentication(options =>
 {
@@ -39,19 +43,18 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-options.SaveToken = true;
-options.RequireHttpsMetadata = false;
-options.TokenValidationParameters = new TokenValidationParameters
-{
-    ValidateIssuer = true,
-    ValidateAudience = false,
-    ValidateLifetime = true,
-    ValidAudience = builder.Configuration["JWT:ValidAudience"],
-    ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
-    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
-};
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidAudience = builder.Configuration["JWT:ValidAudience"],
+        ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
+    };
 });
-
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -82,40 +85,39 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+// ✅ Fixed: Single AddControllers call with JSON options
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
 
-//builder.Services.AddRazorPages();
 var app = builder.Build();
 
-// ✅ Now seed roles
+// ✅ Fixed: Seed roles BEFORE running the app
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     await SeedRolesAsync(roleManager);
 }
-
 
 if (app.Environment.IsDevelopment())
-    {
-        app.UseDeveloperExceptionPage(); // Add this
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
-    app.UseHttpsRedirection();  
-
-    app.UseAuthentication();
-    app.UseAuthorization();
-    app.MapControllers();
-    app.Run();
-
-
-// ✅ Now seed roles
-using (var scope = app.Services.CreateScope())
 {
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    await SeedRolesAsync(roleManager);
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
- static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+
+app.Run();
+
+// ✅ Helper method
+static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
 {
     string[] roleNames = { SD.Role_Admin, SD.Role_User, SD.Role_ServiceProvider };
 

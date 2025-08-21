@@ -2,8 +2,11 @@
 // CRUD for own services + manage appointments for own services
 
 using AppointmentBookingSystem.Data;
+using AppointmentBookingSystem.DTO;
 using AppointmentBookingSystem.Models;
 using AppointmentBookingSystem.ViewModel;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Azure;
 using Humanizer;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +15,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Diagnostics;
 using System.Security.Claims;
+
 
 namespace AppointmentBookingSystem.Controllers
 {
@@ -22,46 +27,28 @@ namespace AppointmentBookingSystem.Controllers
     public class ServiceOwnerController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public ServiceOwnerController(ApplicationDbContext context)
+        public ServiceOwnerController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
         //Helper method to get current user's ServiceOwner ID
-        //private int? GetCurrentServiceOwnerId()
-        //{
-        //    var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        //    NameIdentifier: The user's unique ID (usually the database ID or user ID from Identity) | `12345`  |
-        //| ?.Value |	If the claim is found, return its value(in this case: "12345"). If not, return null (to prevent error).
-
-        //    if (string.IsNullOrEmpty(currentUserId))
-        //        return null;
-
-        //    var serviceOwner = _context.ServiceOwners.FirstOrDefault(so => so.UserID == currentUserId);
-        //    return serviceOwner?.ID;
-        //}
-
         private int? GetCurrentServiceOwnerId()
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            Console.WriteLine($"🔹 Current User ID from Claims: {currentUserId}");
+            //    NameIdentifier: The user's unique ID (usually the database ID or user ID from Identity) | `12345`  |
+            //| ?.Value | If the claim is found, return its value(in this case: "12345"). If not, return null(to prevent error).
 
-            // List all service owners in DB
-            var allOwners = _context.ServiceOwners.ToList();
-            Console.WriteLine("📋 All Service Owners in DB:");
-            foreach (var owner in allOwners)
-            {
-                Console.WriteLine($"  - Owner ID: {owner.ID}, UserID: {owner.UserID}");
+            if (string.IsNullOrEmpty(currentUserId))
+                    return null;
+
+                var serviceOwner = _context.ServiceOwners.FirstOrDefault(so => so.UserID == currentUserId);
+                return serviceOwner?.ID;
             }
 
-            // Try to match the current user with a service owner
-            var serviceOwner = _context.ServiceOwners
-                .FirstOrDefault(so => so.UserID == currentUserId);
-
-            Console.WriteLine($"✅ Matched Service Owner ID: {serviceOwner?.ID}");
-
-            return serviceOwner?.ID;
-        }
+            
 
         //  ===== REGISTER YOUR BUSINESS  =====
 
@@ -162,23 +149,28 @@ namespace AppointmentBookingSystem.Controllers
                 {
                     query = query.Where(a => a.Status.ToLower() == status.ToLower());
                 }
-                var appointments = query.Select(a => new
-                {
-                    a.Id,
-                    a.AppointmentDateTime,
-                    a.Status,
-                    UserName = a.User.Name,
-                    UserEmail = a.User.Email,
-                    SericeTitle = a.Service.Title,
-                    ServicePrice = a.Service.Price
+                //var appointments = query.Select(a => new
+                //{
+                //    a.Id,
+                //    a.AppointmentDateTime,
+                //    a.Status,
+                //    UserName = a.User.Name,
+                //    UserEmail = a.User.Email,
+                //    SericeTitle = a.Service.Title,
+                //    ServicePrice = a.Service.Price
 
-                })
-                .OrderByDescending(a => a.AppointmentDateTime)
-                .ToList();
+                //})
+                //.OrderByDescending(a => a.AppointmentDateTime)
+                //.ToList();
+
+                //var appointmentDtos = _mapper.Map<List<ServiceOwnerAppointmentDto>>(query);
+                var appointmentDtos = query
+                    .ProjectTo<ServiceOwnerAppointmentDto>(_mapper.ConfigurationProvider)
+                    .ToList();
 
                 response.Status = true;
                 response.StatusMessage = " appointments fetched successfully";
-                response.Data = appointments;
+                response.Data = appointmentDtos;
                 return Ok(response);
             }
             catch (Exception)
@@ -188,6 +180,7 @@ namespace AppointmentBookingSystem.Controllers
                 return BadRequest(response);
             }
         }
+        
         // PUT: api/serviceProvider/appointment/{id} - Update appointment status
         [HttpPut("appointment/{id}")]
         public IActionResult UpdateAppointment(int id, [FromBody] UpdateAppointmentStatusVM model)
@@ -282,10 +275,10 @@ namespace AppointmentBookingSystem.Controllers
         //===== SERVICE OWNER ADD EDIT =====
 
 
-
         //===== SERVICES CRUD =====
 
         // GET: api/serviceOwner/services
+        // per service kitni appointments booked hain agr ye bh dekh skein?
         [HttpGet("services")]
         public IActionResult GetServices()
         {
@@ -299,13 +292,15 @@ namespace AppointmentBookingSystem.Controllers
                     response.StatusMessage = "User not found";
                     return BadRequest(response);
                 }
-                var services = _context.ServiceOwners
+                var serviceOwner = _context.ServiceOwners
                     .Include(s => s.Services)
-                    .Where(s => s.ID == serviceOwnerId);
+                    .FirstOrDefault(s => s.ID == serviceOwnerId);
+
+                var servicesDtos = _mapper.Map<List<ServiceOwnerServiceDto>>(serviceOwner.Services);
 
                 response.Status = true;
                 response.StatusMessage = "User services fetched successfully";
-                response.Data = services;
+                response.Data = servicesDtos;
                 return Ok(response);
             }
             catch (Exception)
@@ -359,7 +354,7 @@ namespace AppointmentBookingSystem.Controllers
 
         }
         // PUT : api/serviceOwner/service{id}
-        [HttpPost("service/{id}")]
+        [HttpPut("service/{id}")]
         public IActionResult UpdateService(int id, [FromBody] UpdateServiceVM model)
         {
             BaseResponseModel response = new BaseResponseModel();
@@ -425,7 +420,6 @@ namespace AppointmentBookingSystem.Controllers
 
                 response.Status = true;
                 response.StatusMessage = " service deleted successfully";
-                response.Data = service;
                 return Ok(response);
             }
             catch (Exception)
