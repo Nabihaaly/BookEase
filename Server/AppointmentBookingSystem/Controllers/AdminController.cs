@@ -3,6 +3,7 @@ using AppointmentBookingSystem.Models;
 using AppointmentBookingSystem.ViewModel;
 using Azure;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,10 +17,13 @@ namespace AppointmentBookingSystem.Controllers
     [Route("api/[controller]")]
     public class AdminController : ControllerBase
     {
+        private readonly UserManager<ApplicationUser> _userManager; //Handles users (ApplicationUser)
+
         private readonly ApplicationDbContext _context;
 
-        public AdminController(ApplicationDbContext context)
+        public AdminController(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
+            _userManager = userManager;
             _context = context;
         }
         // ===== APPOINTMENTS MANAGEMENT =====
@@ -95,7 +99,7 @@ namespace AppointmentBookingSystem.Controllers
             {
                 //TODO: dp logging exceptions (if smthn went wrong ask user time wgera masla)
                 response.Status = false;
-                //response.StatusMessage = "Error getting appointments: ";
+                response.StatusMessage = "Error getting appointments: ";
                 response.StatusMessage = ex.ToString(); 
 
                 return BadRequest(response);
@@ -140,24 +144,34 @@ namespace AppointmentBookingSystem.Controllers
 
         // GET: api/admin/users
         [HttpGet("users")]
-        public IActionResult GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
             BaseResponseModel response = new BaseResponseModel();
             try
             {
-                var users = _context.ApplicationUsers
-                    .Select(u => new
+                var users = new List<object>();
+                foreach (var user in _context.ApplicationUsers
+                             .Include(u => u.Appointments) // 👈 load appointments
+                             .Include(u => u.ServiceOwner) // 👈 load service owner if needed
+                             .ToList())
+                {
+                    var roles = await _userManager.GetRolesAsync(user);
+                    // Only keep "User" role
+                    if (roles.Contains("User"))
                     {
-                        u.Id,
-                        u.Name,
-                        u.Email,
-                        u.PhoneNumber,
-                        u.EmailConfirmed,
-                        AppointmentsCount = u.Appointments.Count(),
-                        HasServiceOwnerProfile = u.ServiceOwner != null
-                    })
-                    .ToList();
+                        users.Add(new
+                        {
+                            user.Id,
+                            user.Name,
+                            user.Email,
+                            user.PhoneNumber,
+                            user.EmailConfirmed,
+                            AppointmentsCount = user.Appointments.Count(),
+                            HasServiceOwnerProfile = user.ServiceOwner != null
+                        });
+                    }
 
+                }
                 response.Status = true;
                 response.StatusMessage = "Fetched users successfully";
                 response.Data = users;
@@ -262,7 +276,36 @@ namespace AppointmentBookingSystem.Controllers
                 return BadRequest(response);
 
             }
+        } // GET: api/admin/services - Get all service providers
+        [HttpGet("services")]
+        public IActionResult GetAllServices()
+        {
+            var response = new BaseResponseModel();
+            try
+            {
+                // First, load all the data with includes
+                var servicesName = _context.Services
+                    .Select(s => new
+                    {
+                        s.Title
+                    })
+                    .ToList();
+                
+                response.Status = true;
+                response.StatusMessage = "Services fetched successfully";
+                response.Data = servicesName;
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.StatusMessage = "Error fetching services.";
+                return BadRequest(response);
+
+            }
         }
+        
         // DELETE: api/admin/serviceOwner/{id} - Delete service provider
         [HttpDelete("serviceOwner/{id}")]
         public IActionResult DeleteserviceOwner(int id)
@@ -342,7 +385,9 @@ namespace AppointmentBookingSystem.Controllers
                                             a.AppointmentDateTime,
                                             a.Status,
                                             ServiceTitle = a.Service.Title,
-                                            UserName = a.User.Name
+                                            ServiceOwner = a.Service.ServiceOwner.Name,
+                                            UserName = a.User.Name,
+                                            Email= a.User.Email
                                         })
                                         .ToList()
             };

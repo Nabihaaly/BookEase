@@ -48,7 +48,7 @@ namespace AppointmentBookingSystem.Data
             // 👇 Cascade delete on User (Appointments will be deleted when User is deleted)
             modelBuilder.Entity<Appointment>()
                 .HasOne(a => a.User)
-                .WithMany()
+                .WithMany(u => u.Appointments)
                 .HasForeignKey(a => a.UserID)
                 .OnDelete(DeleteBehavior.Cascade);
 
