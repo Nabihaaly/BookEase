@@ -328,3 +328,378 @@ Why this is useful:
 - ER diagram : https://dbdiagram.io/d/689b5d1a1d75ee360a42cbbb 
 
 <!-- Day of week -->
+
+<!-- UI -->
+```html
+<div className="hidden sm:flex gap-3">
+```
+sm:flex
+Starting from the sm breakpoint (≥640px screen width), Tailwind will apply display: flex.
+That means:
+- On mobile screens (<640px) → this div is hidden.
+- On tablet and larger screens (≥640px) → this div becomes a flex container
+
+
+
+.
+
+🔹 3. Local Storage vs Session Storage
+| Feature  | **localStorage**                 | **sessionStorage**                |
+| -------- | -------------------------------- | --------------------------------- |
+| Lifetime | Stays even after closing browser | Cleared when browser/tab closes   |
+| Capacity | \~5MB per domain                 | \~5MB per domain                  |
+| Access   | `localStorage.getItem("token")`  | `sessionStorage.getItem("token")` |
+
+
+👉 Which to use for JWT tokens?
+
+localStorage → keeps user logged in even after browser restart.
+
+sessionStorage → logs out automatically when tab/browser closes.
+
+⚠️ Both can be read by JavaScript → vulnerable to XSS attacks. In production, storing JWTs in HTTP-only cookies is safer, but localStorage is fine for learning.
+
+
+
+# GITHUB STEPS 
+
+## 🔹 Step 0: Where you should be
+
+* Open terminal in the **root of your project** (where `.git` folder is).
+* Check your current branch:
+
+  ```bash
+  git branch
+  ```
+
+  Make sure you’re on `main` (with a `*` before it).
+
+---
+
+## 🔹 Step 1: Make some changes
+
+Suppose you update your **server** code (e.g., add a new API endpoint).
+
+After editing files, check what changed:
+
+```bash
+git status
+```
+
+It will list modified files.
+
+---
+
+## 🔹 Step 2: Commit **only Server changes**
+
+Add only the server folder:
+
+```bash
+git add Server/
+git commit -m "Server: Added XYZ API endpoint"
+```
+
+📌 Explanation:
+
+* `git add Server/` → stages everything in the `Server` folder.
+* `git commit -m "..."` → creates a commit with your message.
+
+---
+
+## 🔹 Step 3: Commit **only Client changes**
+
+When you update UI (like Navbar, pages, etc.) do the same:
+
+```bash
+git add Client/
+git commit -m "Client: Updated Navbar design"
+```
+
+---
+
+## 🔹 Step 4: Push to GitHub
+
+After committing:
+
+```bash
+git push origin main
+```
+
+This sends your commits to GitHub. ✅
+
+---
+
+## 🔹 Step 5: Verify on GitHub
+
+* Go to your repo on GitHub.
+* Check the **Commits** tab.
+* You should see something like:
+
+  ```
+  Server: Added XYZ API endpoint
+  Client: Updated Navbar design
+  ```
+
+  (plus the old mixed commit we’re keeping)
+
+---
+
+### 💡 Quick Workflow Recap (Every Time You Code)
+
+1. Make changes.
+2. Run `git status` to see what changed.
+3. Use `git add Server/` or `git add Client/` depending on what you worked on.
+4. Run `git commit -m "..."`.
+5. Push with `git push origin main`.
+
+---
+
+🔑 Authentication Notes (JWT + Cookies)
+1. What is a JWT Token?
+
+JWT = JSON Web Token
+
+A secure way to share user identity between client (frontend) and server (backend).
+
+Structure:
+
+header.payload.signature
+
+
+Header → tells algorithm used (e.g. HS256).
+
+Payload → contains user info (like userId, role).
+
+Signature → ensures no one has tampered with the token.
+
+2. Where JWT is stored?
+
+After login, backend generates JWT and sends it to frontend.
+
+Frontend can store it in:
+
+LocalStorage → survives page refresh, but less secure.
+
+SessionStorage → disappears when tab/browser closes.
+
+Cookies → can be more secure if set as HttpOnly & Secure.
+
+3. How JWT Works (Step by Step)
+
+Login Request → user sends username + password to server.
+
+Token Issued → if valid, server creates a JWT and gives it back.
+
+Store Token → frontend saves it (localStorage/sessionStorage/cookie).
+
+Send with Requests → for every API call, frontend adds JWT in Authorization Header:
+
+Authorization: Bearer <your_jwt_token>
+
+
+Server Validates → backend checks the signature and payload.
+
+Access Granted → if token is valid, API responds with requested data.
+
+4. What is a Cookie?
+
+A small piece of data saved in the browser by the website.
+
+Each cookie is like a tiny note: name=value.
+
+Automatically sent with every request to the same domain.
+
+5. Where are Cookies stored?
+
+Stored in the browser.
+
+You can check in Developer Tools → Application → Cookies.
+
+Example:
+
+sessionId=abc123; Path=/; Secure; HttpOnly
+
+6. Cookie Types
+
+Session Cookie → deleted when browser closes.
+
+Persistent Cookie → stays until expiry date.
+
+HttpOnly Cookie → not accessible by JavaScript (more secure).
+
+Secure Cookie → sent only over HTTPS.
+
+7. JWT vs Cookies
+Feature	JWT in Storage (local/session)	Cookies
+Where stored?	Browser storage	Browser cookies
+Send with request?	You must add it manually (Authorization header)	Automatically sent with request
+Security	Vulnerable to XSS if in localStorage	HttpOnly cookies protect from XSS
+Use case	SPA apps (React/Angular/Blazor, etc.)	Traditional web apps
+
+✅ Important Point for Beginners:
+
+JWT = Proof of identity.
+
+Cookie = Place to keep proof (like a pocket to carry JWT or session ID).
+
+:
+
+🔹 1. Session (Server-side)
+
+Stored on the server (in memory, database, or distributed cache like Redis).
+
+The server creates a unique Session ID and gives it to the client via a cookie (usually ASP.NET_SessionId).
+
+The client sends this cookie with every request, so the server can fetch that user’s session data.
+
+Example use: storing logged-in user’s cart, temporary data, etc.
+
+👉 Lifetime: lasts until the session times out or the user logs out.
+
+🔹 2. Local Storage (Client-side)
+
+Stored in the browser, persistent (does not expire until cleared).
+
+Can only be accessed by JavaScript on the client side.
+
+Each domain gets its own storage.
+
+Example use: saving JWT tokens, theme preferences, or offline app data.
+
+👉 Lifetime: stays even after closing the browser (until manually cleared).
+
+🔹 3. Session Storage (Client-side)
+
+Similar to local storage, but lives only for the browser tab.
+
+Once the tab is closed, the data is lost.
+
+Example use: temporary form inputs, state for a tab-specific session.
+
+👉 Lifetime: ends when the tab is closed.
+
+✅ So difference in simple terms:
+
+Session (server): lives on the server, identified by a cookie, used to track server-side data per user.
+
+Local/session storage (browser): lives on client, stores data in the browser, doesn’t involve server unless you send it back manually.
+
+🔹 Cookies
+
+A cookie is a small piece of data that the server stores on the client’s browser.
+
+Browser sends the cookie with every request back to the server.
+
+Example: When you log in, the server may give you a cookie like AuthToken=xyz. Next time, your browser sends it automatically so the server knows who you are.
+
+Stored in browser (you can see them in Chrome → DevTools → Application → Cookies).
+
+✅ Uses:
+
+Authentication (JWT or session IDs).
+
+Remembering preferences (dark mode, language).
+
+Tracking (shopping carts, analytics).\
+
+Arrow Functions: {} vs ()
+
+| Scenario                         | Use  |
+| -------------------------------- | ---- |
+| Multiple lines / side effects    | `{}` |
+| Single expression / return value | `()` |
+
+1. Block body {} → Explicit return
+const add = (a, b) => {
+    return a + b;
+};
+
+
+Use when the function has multiple statements.
+
+Must use return to return a value.
+
+Can perform side effects (e.g., logging, API calls).
+
+React example:
+
+const SignUpPage = () => {
+    const handleSubmit = () => {
+        console.log("Form submitted");
+    };
+
+    return <div>Signup Form</div>;
+};
+
+2. Concise body () → Implicit return
+const add = (a, b) => a + b;
+
+
+Only works for single expressions.
+
+Automatically returns the result of the expression.
+
+Cannot have multiple statements or side effects inside.
+
+React example:
+
+const SignUpPage = () => (
+    <div>Signup Form</div>
+);
+
+
+hum JWT token ko cookies m store krrhy hain
+1. Register
+
+Create user in DB.
+
+Assign role.
+
+Generate access token (15min) + refresh token (15d).
+
+Send access token in response body + set refresh token in cookie.
+
+✅ User is immediately logged in.
+
+2. Login
+
+Validate email + password.
+Same as register → generate both tokens.
+Return them.
+
+3. Authenticated Requests
+
+Frontend uses access token in headers:
+
+Authorization: Bearer <access_token>
+
+
+Backend [Authorize] middleware checks if token is valid → attaches claims (User.Identity, User.Claims).
+
+4. Refresh Token
+
+When access token expires (401 Unauthorized), frontend calls /api/auth/refresh.
+
+Backend reads refreshToken from cookie, validates it.
+
+If valid → issues new access token.
+
+No password needed.
+
+5. Logout
+Deletes cookie (refreshToken).
+
+SHORT : 
+- Access token will expire naturally in 15 min → user is logged out.
+- JWT (access token) = proves who user is (short-lived).
+- Refresh token (cookie) = allows issuing new JWT without login (long-lived).
+- Cookies = safe storage for refresh tokens (HttpOnly).
+- Access token goes in headers for API requests.
+- Refresh token goes in cookie → backend handles refresh automatically.
+- 
+Refresh token only proves identity (like "yes, this user had a valid session before").
+You then rebuild the access token by looking up the user in the database (and re-fetching email + roles).
+
+
+# updates:
+ - admin provider in main 

@@ -1,9 +1,46 @@
-import React from 'react';
-import Navbar from "../../components/common/Navbar"
+import React,{useState, useContext} from 'react';
+import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
-// LOGIN PAGE
-const Login = () => (
-        <>
+// LOGIN PAGE   
+const Login = () => {
+    const {user, login} = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);``
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit= async (e)=>{
+        e.preventDefault();
+         setError(null);
+         setLoading(true);   
+
+        const res = await login(email, password);
+        setLoading(false);
+
+        if(res?.success ===false)
+            setError(res.message);
+        else{
+            // Use user from context
+            const roles = user?.roles || []; 
+
+            if (roles.includes("Admin")) {
+                navigate("/admin");
+            } else if (roles.includes("ServiceProvider")) {
+                navigate("/ServiceOwner");
+            } else if (roles.includes("User")) {
+                navigate("/User");
+            }else navigate("/");
+        }
+    };
+
+    
+
+    return(
+    <>
     <div className="min-h-screen bg-white flex">
         {/* Left Side - Form */}
         <div className="flex-1 flex items-center justify-center p-8 bg-gray-50">
@@ -21,8 +58,14 @@ const Login = () => (
             </div>
 
             {/* Login Form */}
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
             
+                {/* Error Display */}
+                {error && (
+                    <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                        {error}
+                    </div>
+                )}
 
             {/* Email Input */}
             <div>
@@ -30,27 +73,42 @@ const Login = () => (
                 type="email"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-white"
                 placeholder="Email"
+                value={email}
+                onChange={(e)=> setEmail(e.target.value)}
+                required
                 />
             </div>
 
             {/* Password Input */}
             <div className="relative">
                 <input
-                type="password"
+                type={showPassword ? "text" : "password"}  // toggle here
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-white pr-12"
                 placeholder="Password"
+                value={password}
+                onChange={(e)=> setPassword(e.target.value)}
+                required
                 />
                 <button
                 type="button"
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                onClick={() => setShowPassword(!showPassword)} // toggle visibility
                 >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {showPassword ? (
+                    // Eye Off Icon
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.956 9.956 0 012.873-4.419M9.88 9.88a3 3 0 104.24 4.24" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6.1 6.1l11.8 11.8" />
+                    </svg>
+                ) : (
+                    // Eye Icon
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
+                    </svg>
+                )}
                 </button>
             </div>
-
             {/* Forgot Password */}
             <div className="flex justify-end">
                 <button type="button" className="text-sm text-purple-600 hover:text-purple-800 font-medium transition-colors">
@@ -61,9 +119,10 @@ const Login = () => (
             {/* Login Button */}
             <button
                 type="submit"
+                disabled={loading} // button become unclickable
                 className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-6 rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300"
-            >
-                Sign In
+            > {/* If loading === true, show "Signing in...". Else (loading === false), show "Sign In". */}
+                {loading? "Signing In... ": "Sign In"}
             </button>
 
             {/* Google Sign In */}
@@ -162,6 +221,6 @@ const Login = () => (
         </div>
     </div>
   </>
-);
+)};
 
 export default Login;

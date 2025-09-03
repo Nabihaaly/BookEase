@@ -1,4 +1,15 @@
 src/
+    api/axiosClient.js
+    auth/AuthContext.jsx
+    auth/ProtectedRoute.jsx
+    auth/RoleRoute.jsx
+    pages/Login.jsx
+    pages/SignUp.jsx
+    App.jsx
+    main.jsx
+
+
+src/
 ├── assets/                # Images, icons, etc.
 ├── components/            # Reusable components (Navbar, Button, Card, etc.)
 │   └── common/
