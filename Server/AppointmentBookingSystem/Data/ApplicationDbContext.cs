@@ -21,17 +21,19 @@ namespace AppointmentBookingSystem.Data
 
             // ✅ Seed initial Service Categories
             modelBuilder.Entity<ServiceCategory>().HasData(
-                new ServiceCategory { ID = 1, Name = "Salon" },
-                new ServiceCategory { ID = 2, Name = "Clinic" },
-                new ServiceCategory { ID = 3, Name = "Consultant" },
-                new ServiceCategory { ID = 4, Name = "Fitness & Wellness" },
-                new ServiceCategory { ID = 5, Name = "Freelancer" },
-                new ServiceCategory { ID = 6, Name = "Home Services" }
+                new ServiceCategory { ID = 1, Name = "Salon & Beauty", Description = "Hair, nails, skincare & beauty treatments", IconKey = "salon" },
+                new ServiceCategory { ID = 2, Name = "Medical Services", Description = "Healthcare appointments & consultations", IconKey = "medical" },
+                new ServiceCategory { ID = 3, Name = "Consulting Services", Description = "Professional consultancy services", IconKey = "consultant" },
+                new ServiceCategory { ID = 4, Name = "Fitness & Wellness", Description = "Personal training & wellness coaching", IconKey = "fitness" },
+                new ServiceCategory { ID = 5, Name = "Freelancer Services", Description = "Independent professionals for various tasks", IconKey = "services" },
+                new ServiceCategory { ID = 6, Name = "Home Services", Description = "Cleaning, repairs & maintenance", IconKey = "home" }
             );
+
+
 
             // ✅ Relationships
             modelBuilder.Entity<ServiceOwner>() //Ensures 1 user = 1 business/freelancer profile.
-                .HasOne(sp => sp.User)
+                .HasOne(sp => sp.User)  
                 .WithOne(u => u.ServiceOwner)
                 .HasForeignKey<ServiceOwner>(sp => sp.UserID);
 

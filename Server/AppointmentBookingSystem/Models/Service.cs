@@ -18,6 +18,9 @@ namespace AppointmentBookingSystem.Models
         public string DayOfWeek { get; set; } = null!;
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
+        public string CoverImageUrl { get; set; }
+
+        //image  
 
         [ForeignKey("ServiceOwnerID")]
         public ServiceOwner ServiceOwner { get; set; } = null!;

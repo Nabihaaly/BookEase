@@ -1,22 +1,18 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using AppointmentBookingSystem.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AppointmentBookingSystem.ViewModel
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class RegisterBusinessVM : ControllerBase
+    public class UpdateServiceOwnerVM
     {
-        public string Name { get; set; } = null!;
         [Required]
+        public string Name { get; set; } = null!;
+        
         public int CategoryID { get; set; }
         public string Description { get; set; } = null!;
         public bool IsSoloProvider { get; set; }
-
         public string CoverImageUrl { get; set; }
-
-        public float Rating { get; set; }
         public string Location { get; set; }
     }
 }

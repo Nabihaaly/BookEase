@@ -10,6 +10,8 @@ namespace AppointmentBookingSystem.Models
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
+        public string Description { get; set; }
+        public string IconKey { get; set; }
 
         public ICollection<ServiceOwner> ServiceOwners { get; set; } = new List<ServiceOwner>();
 

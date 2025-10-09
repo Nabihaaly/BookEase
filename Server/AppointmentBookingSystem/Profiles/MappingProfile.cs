@@ -10,7 +10,9 @@ namespace AppointmentBookingSystem.Profiles
         {
             // Appointment mappings
             CreateMap<Appointment, AppointmentDto>()
+                 .ForMember(dest => dest.ServiceID, opt => opt.MapFrom(src => src.Service.ID))
                  .ForMember(dest => dest.ServiceTitle, opt => opt.MapFrom(src => src.Service.Title))
+                 .ForMember(dest => dest.ServicePrice, opt => opt.MapFrom(src => src.Service.Price))
                 .ForMember(dest => dest.DurationMinutes, opt => opt.MapFrom(src => src.Service.DurationMinutes))
                 .ForMember(dest => dest.ServiceOwnerName, opt => opt.MapFrom(src => src.Service.ServiceOwner.Name));
                 
@@ -25,7 +27,8 @@ namespace AppointmentBookingSystem.Profiles
             // Service mappings
             CreateMap<Service, ServiceDto>()
                 .ForMember(dest => dest.ServiceOwnerID, opt => opt.MapFrom(src => src.ServiceOwner.ID))
-                .ForMember(dest => dest.ServiceOwnerName, opt => opt.MapFrom(src => src.ServiceOwner.Name));
+                .ForMember(dest => dest.ServiceOwnerName, opt => opt.MapFrom(src => src.ServiceOwner.Name))
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.ServiceOwner.Category.Name));
 
 
             CreateMap<Service, ServiceOwnerServiceDto>();

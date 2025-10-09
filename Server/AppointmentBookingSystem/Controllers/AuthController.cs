@@ -107,6 +107,7 @@ namespace AppointmentBookingSystem.Controllers
                 // Generate Refresh Token (15 days, stateless JWT)
                 var refreshClaims = new List<Claim>
                 {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 };
@@ -190,6 +191,7 @@ namespace AppointmentBookingSystem.Controllers
                     // 🔑 Generate Refresh Token (15 days, stateless JWT)
                     var refreshClaims = new List<Claim>
                     {
+                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                         new Claim(ClaimTypes.Name, user.UserName),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                     };

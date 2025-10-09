@@ -5,7 +5,10 @@
         public int Id { get; set; }
         public DateTime AppointmentDateTime { get; set; }
         public string Status { get; set; }
+        public int ServiceID { get; set; }
         public string ServiceTitle { get; set; }
+        public decimal ServicePrice { get; set; }
+
         public int DurationMinutes { get; set; }
         public string ServiceOwnerName { get; set; } = null!;
     }

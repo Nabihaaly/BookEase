@@ -11,13 +11,18 @@ using Azure;
 using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using System.Diagnostics;
+using System.Drawing;
+using System.Net.Http.Headers;
 using System.Security.Claims;
-
+using System.Security.Cryptography;
+using System.Linq;
 
 namespace AppointmentBookingSystem.Controllers
 {
@@ -42,13 +47,13 @@ namespace AppointmentBookingSystem.Controllers
             //| ?.Value | If the claim is found, return its value(in this case: "12345"). If not, return null(to prevent error).
 
             if (string.IsNullOrEmpty(currentUserId))
-                    return null;
+                return null;
 
-                var serviceOwner = _context.ServiceOwners.FirstOrDefault(so => so.UserID == currentUserId);
-                return serviceOwner?.ID;
-            }
+            var serviceOwner = _context.ServiceOwners.FirstOrDefault(so => so.UserID == currentUserId);
+            return serviceOwner?.ID;
+        }
 
-            
+
 
         //  ===== REGISTER YOUR BUSINESS  =====
 
@@ -87,7 +92,10 @@ namespace AppointmentBookingSystem.Controllers
                     Name = model.Name,
                     CategoryID = model.CategoryID,
                     Description = model.Description,
-                    IsSoloProvider = model.IsSoloProvider
+                    IsSoloProvider = model.IsSoloProvider,
+                    CoverImageUrl = model.CoverImageUrl,
+                    Rating = model.Rating,
+                    Location = model.Location
                 };
 
                 _context.ServiceOwners.Add(serviceOwner);
@@ -100,9 +108,10 @@ namespace AppointmentBookingSystem.Controllers
                 return Ok(response);
 
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 response.Status = false;
-                response.StatusMessage = "Error registering bussiness "+ ex.ToString;
+                response.StatusMessage = "Error registering bussiness " + ex.ToString;
                 return BadRequest(response);
             }
         }
@@ -130,7 +139,7 @@ namespace AppointmentBookingSystem.Controllers
                     return BadRequest(response);
                 }
                 // Get appointments for services owned by current service provider
-                var query = _context.Appointments               
+                var query = _context.Appointments
                     .Include(a => a.Service)
                     .Include(a => a.User)
                     .Where(a => a.Service.ServiceOwnerID == serviceOwnerId)
@@ -180,7 +189,7 @@ namespace AppointmentBookingSystem.Controllers
                 return BadRequest(response);
             }
         }
-        
+
         // PUT: api/serviceProvider/appointment/{id} - Update appointment status
         [HttpPut("appointment/{id}")]
         public IActionResult UpdateAppointment(int id, [FromBody] UpdateAppointmentStatusVM model)
@@ -274,6 +283,80 @@ namespace AppointmentBookingSystem.Controllers
 
         //===== SERVICE OWNER ADD EDIT =====
 
+        // GET: api/serviceOwner
+        [HttpGet]
+        public IActionResult GetServiceOwner()
+        {
+            BaseResponseModel response = new BaseResponseModel();
+            try
+            {
+                var serviceOwnerId = GetCurrentServiceOwnerId();
+                if (serviceOwnerId == null)
+                {
+                    response.Status = false;
+                    response.StatusMessage = "ServiceOwner not found";
+                    return BadRequest(response);
+                }
+                var serviceOwner = _context.ServiceOwners
+                    .FirstOrDefault(s => s.ID == serviceOwnerId);
+
+                //var servicesDtos = _mapper.Map<List<ServiceOwnerServiceDto>>(serviceOwner.Services);
+
+                response.Status = true;
+                response.StatusMessage = "fetched successfully";
+                response.Data = serviceOwner;
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                response.Status = false;
+                response.StatusMessage = "Error fetching service owner data";
+                return BadRequest(response);
+            }
+        }
+
+        // PUT : api/serviceOwner
+        [HttpPut]
+        public IActionResult UpdateServiceOwner(int id, [FromBody] UpdateServiceOwnerVM model)
+        {
+            BaseResponseModel response = new BaseResponseModel();
+            try
+            {
+                // get current user ID from claims 
+                var serviceOwnerId = GetCurrentServiceOwnerId();
+
+                if (serviceOwnerId == null)
+                {
+                    response.Status = false;
+                    response.StatusMessage = "ServiceOwner not found";
+                    return BadRequest(response);
+                }
+
+                var serviceOwner = _context.ServiceOwners
+                   .FirstOrDefault(s => s.ID == serviceOwnerId);
+
+                // Update service properties
+                serviceOwner.Name = model.Name;
+                serviceOwner.Description = model.Description;
+                serviceOwner.Location = model.Location;
+                serviceOwner.IsSoloProvider = model.IsSoloProvider;
+                serviceOwner.CoverImageUrl = model.CoverImageUrl;
+
+                _context.ServiceOwners.Update(serviceOwner);
+                _context.SaveChanges();
+
+                response.Status = true;
+                response.StatusMessage = " service updated successfully";
+                response.Data = serviceOwner;
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                response.Status = false;
+                response.StatusMessage = "Error creating service";
+                return BadRequest(response);
+            }
+        }
 
         //===== SERVICES CRUD =====
 
@@ -286,7 +369,7 @@ namespace AppointmentBookingSystem.Controllers
             try
             {
                 var serviceOwnerId = GetCurrentServiceOwnerId();
-                if (serviceOwnerId== null)
+                if (serviceOwnerId == null)
                 {
                     response.Status = false;
                     response.StatusMessage = "User not found";
@@ -310,6 +393,7 @@ namespace AppointmentBookingSystem.Controllers
                 return BadRequest(response);
             }
         }
+
         // POST : api/serviceOwner/service
         [HttpPost("service")]
         public IActionResult CreateServices([FromBody] CreateServiceVM model)
@@ -334,7 +418,8 @@ namespace AppointmentBookingSystem.Controllers
                     MaxAppointmentsPerDay = model.MaxAppointmentsPerDay,
                     DayOfWeek = model.DayOfWeek,
                     StartTime = model.StartTime,
-                    EndTime = model.EndTime
+                    EndTime = model.EndTime,
+                    CoverImageUrl = model.CoverImageUrl
                 };
                 _context.Services.Add(service);
                 _context.SaveChanges();
@@ -353,6 +438,7 @@ namespace AppointmentBookingSystem.Controllers
 
 
         }
+
         // PUT : api/serviceOwner/service{id}
         [HttpPut("service/{id}")]
         public IActionResult UpdateService(int id, [FromBody] UpdateServiceVM model)
@@ -364,10 +450,10 @@ namespace AppointmentBookingSystem.Controllers
                 var serviceOwnerId = GetCurrentServiceOwnerId();
 
                 // Ensure service belongs to current service owner
-                var service = _context.Services.FirstOrDefault(s => s.ID == id && s.ServiceOwnerID  == serviceOwnerId);
-                if(service == null )
+                var service = _context.Services.FirstOrDefault(s => s.ID == id && s.ServiceOwnerID == serviceOwnerId);
+                if (service == null)
                 {
-                    response.Status = false; 
+                    response.Status = false;
                     response.StatusMessage = "Service not found or access denied";
                     return NotFound(response);
                 }
@@ -380,6 +466,7 @@ namespace AppointmentBookingSystem.Controllers
                 service.DayOfWeek = model.DayOfWeek;
                 service.StartTime = model.StartTime;
                 service.EndTime = model.EndTime;
+                service.CoverImageUrl = model.CoverImageUrl;
 
                 _context.Services.Update(service);
                 _context.SaveChanges();
@@ -396,6 +483,7 @@ namespace AppointmentBookingSystem.Controllers
                 return BadRequest(response);
             }
         }
+
         //DELETE : api/serviceOwner/service{id}
         [HttpDelete("service/{id}")]
         public IActionResult DeleteService(int id)
@@ -428,6 +516,157 @@ namespace AppointmentBookingSystem.Controllers
                 response.StatusMessage = "Error deleting service";
                 return BadRequest(response);
             }
+        }
+
+        [HttpPost]
+        [Route("upload-service-owner-image")]
+        public async Task<IActionResult> UploadServiceOwnerImage(IFormFile imageFile)
+        {
+            //BaseResponseModel response = new BaseResponseModel();
+            //try
+            //{
+            //    // 1. Get File Name, It extracts the uploaded file’s name (myphoto.png) cleanly from the HTTP request headers, without the extra quotes.
+            //    var filename = ContentDispositionHeaderValue
+            //        .Parse(imageFile.ContentDisposition)
+            //        .FileName.TrimStart('\"').TrimEnd('\"');
+
+            //    // 2. Set Folder Path
+            //    var newPath = "C:\\Project net\\BookEase - Appointment Booking System\\images\\serviceOwners";
+            //    if (!Directory.Exists(newPath))
+            //    {
+            //        Directory.CreateDirectory(newPath);
+            //    }
+
+            //    // 3. Check Allowed Extensions
+            //    string[] allowedImageExtensions = new string[] { ".jpg", ".jpeg", ".png" };
+            //    if (!allowedImageExtensions.Contains(Path.GetExtension(filename)))
+            //    {
+            //        response.Status = false;
+            //        response.StatusMessage = "only .jpg .jpeg, .png extensions are allowed";
+            //        return BadRequest(response);
+            //    }
+
+            //    // 4. rename file(Unique Name) Guid.NewGuid() makes a random ID like 3fa85f64-5717-4562-b3fc-2c963f66afa6.
+            //    var newFileName = Guid.NewGuid() + Path.GetExtension(filename);
+
+            //    // 5. Save File
+            //    string fullFilePath = Path.Combine(newPath, newFileName);
+            //    using (var stream = new FileStream(fullFilePath, FileMode.Create))
+            //    {
+            //        await imageFile.CopyToAsync(stream);
+            //    }
+
+            //    return Ok(new
+            //    {
+            //        ProfileImage = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/images/{newFileName}"
+            //    });
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    return BadRequest("Error Occured");
+            //}
+
+            return await SaveImage(imageFile, "serviceOwners");
+        }
+        
+        [HttpPost]
+        [Route("upload-service-image")]
+        public async Task<IActionResult> UploadServiceImage(IFormFile imageFile)
+        {
+            //BaseResponseModel response = new BaseResponseModel();
+            //try
+            //{
+            //    // 1. Get File Name, It extracts the uploaded file’s name (myphoto.png) cleanly from the HTTP request headers, without the extra quotes.
+            //    var filename = ContentDispositionHeaderValue
+            //        .Parse(imageFile.ContentDisposition)
+            //        .FileName.TrimStart('\"').TrimEnd('\"');
+
+            //    // 2. Set Folder Path
+            //    var newPath = "C:\\Project net\\BookEase - Appointment Booking System\\images\\services";
+            //    if (!Directory.Exists(newPath))
+            //    {
+            //        Directory.CreateDirectory(newPath);
+            //    }
+
+            //    // 3. Check Allowed Extensions
+            //    string[] allowedImageExtensions = new string[] { ".jpg", ".jpeg", ".png" };
+            //    if (!allowedImageExtensions.Contains(Path.GetExtension(filename)))
+            //    {
+            //        response.Status = false;
+            //        response.StatusMessage = "only .jpg .jpeg, .png extensions are allowed";
+            //        return BadRequest(response);
+            //    }
+
+            //    // 4. rename file(Unique Name) Guid.NewGuid() makes a random ID like 3fa85f64-5717-4562-b3fc-2c963f66afa6.
+            //    var newFileName = Guid.NewGuid() + Path.GetExtension(filename);
+
+            //    // 5. Save File
+            //    string fullFilePath = Path.Combine(newPath, newFileName);
+            //    using (var stream = new FileStream(fullFilePath, FileMode.Create))
+            //    {
+            //        await imageFile.CopyToAsync(stream);
+            //    }
+
+            //    return Ok(new
+            //    {
+            //        ProfileImage = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/images/{newFileName}"
+            //    });
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    return BadRequest("Error Occured");
+            //}
+
+            return await SaveImage(imageFile, "services");
+        }
+
+        private async Task<IActionResult> SaveImage(IFormFile imageFile, string folderName)
+        {
+            BaseResponseModel response = new BaseResponseModel();
+            try
+            {
+                // 1. Get File Name, It extracts the uploaded file’s name (myphoto.png) cleanly from the HTTP request headers, without the extra quotes.
+                var filename = ContentDispositionHeaderValue
+                    .Parse(imageFile.ContentDisposition)
+                    .FileName.TrimStart('\"').TrimEnd('\"');
+
+                // 2. Create target path: wwwroot/images/{folderName}
+                var newPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", folderName);
+                if (!Directory.Exists(newPath)) {
+                    Directory.CreateDirectory(newPath);
+                }
+
+                // 3. Check Allowed Extensions
+                string[] allowedImageExtensions = new string[] { ".jpg", ".jpeg", ".png" };
+                if (!allowedImageExtensions.Contains(Path.GetExtension(filename)))
+                {
+                    response.Status = false;
+                    response.StatusMessage = "only .jpg .jpeg, .png extensions are allowed";
+                    return BadRequest(response);
+                }
+
+                // 4. rename file(Unique Name) Guid.NewGuid() makes a random ID like 3fa85f64-5717-4562-b3fc-2c963f66afa6.
+                var newFileName = Guid.NewGuid() + Path.GetExtension(filename);
+
+                // 5. Save File
+                string fullFilePath = Path.Combine(newPath, newFileName);
+                using (var stream = new FileStream(fullFilePath, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+
+                return Ok(new
+                {
+                    ProfileImage = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/images/{folderName}/{newFileName}"
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error Occured");
             }
         }
+    }
 }
