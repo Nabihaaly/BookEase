@@ -10,18 +10,18 @@ function Navbar() {
   const [profileOpen, setProfileOpen] = useState(false);
 
   const { user, logout } = useContext(AuthContext);
-  const isAdmin =  user?.role==="Admin";
+  const isAdmin =  user?.roles[0]==="Admin";
+  const isOwner =  user?.roles[0]==="ServiceProvider";
   
   // ✅ Determine if user is logged in based on user object
   const isLoggedIn = user !== null;
-  // const isLoggedIn = true;
 
   const handleLogout = async () => {
     try {
       await logout();
       setProfileOpen(false); // Close dropdown after logout
     } catch (error) {
-      console.error("Logout failed:", error);
+      console.error("Logout failed:", error); 
     }
   };
 
@@ -34,17 +34,18 @@ function Navbar() {
             <RouterLink to="/" className="flex items-center cursor-pointer">
               <div className="flex-shrink-0 flex items-center">
                 <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-r from-purple-400 to-pink-500 rounded-lg mr-2 sm:mr-3"></div>
-                <span className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 truncate">BookingPro</span>
+                <span className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 truncate">BookEase</span>
               </div>
             </RouterLink>
           </div>
 
           {/* Desktop Nav - Only show for non-admin users */}
-          { !isAdmin &&(
+          { !isAdmin || !isOwner &&(
           <div className="hidden lg:block">
             <div className="ml-6 xl:ml-10 flex items-baseline space-x-4 xl:space-x-8">
               <Link to="home" smooth={true} duration={500} offset={-80} className="text-gray-700 hover:text-purple-700 px-2 xl:px-3 py-2 text-sm font-medium transition-colors cursor-pointer whitespace-nowrap">Home</Link>
-              <Link to="services" smooth={true} duration={500} offset={-80} className="text-gray-700 hover:text-purple-700 px-2 xl:px-3 py-2 text-sm font-medium transition-colors cursor-pointer whitespace-nowrap">Services</Link>
+              {/* <RouterLink to="/serviceCategories"offset={-80} className="text-gray-700 hover:text-purple-700 px-2 xl:px-3 py-2 text-sm font-medium transition-colors cursor-pointer whitespace-nowrap">Service Categories</RouterLink> */}
+              <RouterLink to="/categories" className="text-gray-700 hover:text-purple-700 px-2 xl:px-3 py-2 text-sm font-medium transition-colors cursor-pointer whitespace-nowrap">Service Categories</RouterLink>
               <Link to="features" smooth={true} duration={500} offset={-80} className="text-gray-700 hover:text-purple-700 px-2 xl:px-3 py-2 text-sm font-medium transition-colors cursor-pointer whitespace-nowrap">Features</Link>
               <Link to="testimonial" smooth={true} duration={500} offset={-80} className="text-gray-700 hover:text-purple-700 px-2 xl:px-3 py-2 text-sm font-medium transition-colors cursor-pointer whitespace-nowrap">Testimonials</Link>
               <Link to="FAQ" smooth={true} duration={500} offset={-80} className="text-gray-700 hover:text-purple-700 px-2 xl:px-3 py-2 text-sm font-medium transition-colors cursor-pointer whitespace-nowrap">FAQ</Link>
@@ -138,7 +139,7 @@ function Navbar() {
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="lg:hidden bg-white rounded-xl shadow-lg mx-2 sm:mx-3 mt-2 px-4 sm:px-5 py-3 sm:py-4 space-y-2 sm:space-y-3 border border-gray-100"
           >
-            { !isAdmin && (
+            { !isAdmin || !isOwner && (
               <div className="space-y-1 sm:space-y-2">
               <Link
                 to="home"

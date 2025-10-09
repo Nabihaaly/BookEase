@@ -1,6 +1,7 @@
 import React,{useState, useContext} from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from "react-router-dom";
 
 const SignUpPage = () => {
     const {signup} = useContext(AuthContext);
@@ -46,7 +47,13 @@ const SignUpPage = () => {
       if(res?.success ===false)
         setError(res.message);
       else{
-        navigate("/"); // 👈 redirect after login
+        if (role==="Admin") {
+            navigate("/admin");
+        } else if (role==="ServiceProvider") {
+            navigate("/ServiceOwner");
+        } else if (role==="User") {
+            navigate("/");
+        }else navigate("/");
       }
     }
 
@@ -58,12 +65,14 @@ const SignUpPage = () => {
       <div className="w-full max-w-md">
         {/* Logo Section */}
         <div className="mb-8">
-          <div className="flex items-center mb-6">
-            <div className="w-10 h-10 bg-gradient-to-r from-purple-400 to-pink-500 rounded-lg mr-3 flex items-center justify-center">
-              <div className="w-5 h-5 bg-white rounded opacity-90"></div>
+          <RouterLink to="/" className="flex items-center cursor-pointer">
+            <div className="flex items-center mb-6">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-400 to-pink-500 rounded-lg mr-3 flex items-center justify-center">
+                <div className="w-5 h-5 bg-white rounded opacity-90"></div>
+              </div>
+              <span className="text-2xl font-bold text-gray-900">BookingPro</span>
             </div>
-            <span className="text-2xl font-bold text-gray-900">BookingPro</span>
-          </div>
+          </RouterLink>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Let's create your account</h1>
           <p className="text-gray-600">Signing up is fast and free—no commitments or long-term contracts.</p>
         </div>

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import api from "../../utils/api";
 import { toast } from "react-toastify";
-import { AdminContext } from "../../context/AdminContext";
+import { ServicesContext } from "../../context/ServicesContext";
 
 // AdminAppointments.jsx
 export default function AdminAppointments() {
@@ -9,7 +9,7 @@ export default function AdminAppointments() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(false);
   
-  const {fetchServiceOwners, serviceOwners, services, fetchServices, providerError, serviceError} = useContext(AdminContext);
+  const {fetchServiceOwners, serviceOwners, services, fetchServices, providerError, serviceError} = useContext(ServicesContext);
 
    // Filter states
   const [fromDate, setFromDate] = useState("");

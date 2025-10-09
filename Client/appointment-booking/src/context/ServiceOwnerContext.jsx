@@ -3,31 +3,30 @@ import api from "../utils/api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const AdminContext = createContext();
+export const ServiceOwnerContext = createContext();
 
-const AdminProvider= ({children})=> {
-    const [serviceOwners, setServiceOwners] = useState([]);
+const ServiceOwnerProvider= ({children})=> {
+    const [serviceOwner, setServiceOwner] = useState([]);
+    const [ownerError, setOwnerError] = useState(null);
+    
     const [services, setServices] = useState([]);
-    const [providerError, setProviderError] = useState(null);
     const [serviceError, setServiceError] = useState(null);
+    
 
-
-    const fetchServiceOwners = async () => {
+    const fetchServiceOwner = async () => {
     try {
-        setProviderError(null); // reset error
-        const res = await api.get("/admin/serviceOwners");
+        setOwnerError(null); // reset error
+        const res = await api.get("/serviceOwner");
         if (res?.data.status) {
-        setServiceOwners(res.data.data);
+        setServiceOwner(res.data.data);
         return { success: true };
         }
     } catch (error) {
-        console.error("error in fetching owners:", error);
         const errorMessage =
-        error.response?.data?.statusMessage ||
-        error.response?.data?.message ||
-        "Failed to load providers";
-
-        setProviderError(errorMessage); // set error here
+        err.response?.data?.statusMessage ||
+        err.response.data?.message ||
+        "Failed to load Service Owner";
+        setOwnerError(errorMessage);
         toast.error(errorMessage);
         return { success: false, message: errorMessage };
     }
@@ -36,7 +35,7 @@ const AdminProvider= ({children})=> {
     const fetchServices = async () => {
         try {
             setServiceError(null); // reset error
-            const res = await api.get("/admin/services");
+            const res = await api.get("/serviceOwner/services");
             if (res?.data.status) {
             setServices(res.data.data);
             return { success: true };
@@ -54,13 +53,12 @@ const AdminProvider= ({children})=> {
         }
     };
 
-
-
-    return (
-        <AdminContext.Provider value={{fetchServiceOwners, serviceOwners, setServiceOwners, services, fetchServices, providerError, serviceError}}>
+    return(
+        <ServiceOwnerContext.Provider value={{fetchServiceOwner, serviceOwner, ownerError, fetchServices, services, serviceError }}>
             {children}
-        </AdminContext.Provider>
+        </ServiceOwnerContext.Provider>
     );
+
 };
 
-export default AdminProvider ;
+export default ServiceOwnerProvider;

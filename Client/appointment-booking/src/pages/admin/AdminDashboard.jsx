@@ -43,10 +43,6 @@ const AdminDashboard = () => {
     fetchStats();
   }, []);
 
-  // Handle delete appointment
-  const handleDelete = (appointmentId) => {
-  };
-
   // Format date and time
   const formatDateTime = (dateTimeString) => {
     const date = new Date(dateTimeString);

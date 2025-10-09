@@ -63,8 +63,7 @@ export const AuthProvider = ({ children }) => {
                         pauseOnHover: true,
                         draggable: true,
                     });
-                    return { success: true };
-                    // return { success: true, user: res.data.data.user };
+                    return { success: true, user: res.data.data.user };
             } else {
                 setUser(null);
                 setAccessToken(null);

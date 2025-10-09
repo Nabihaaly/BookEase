@@ -1,6 +1,7 @@
 import React,{useState, useContext} from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { Link as RouterLink } from "react-router-dom";
 
 // LOGIN PAGE   
 const Login = () => {
@@ -13,29 +14,29 @@ const Login = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const handleSubmit= async (e)=>{
-        e.preventDefault();
-         setError(null);
-         setLoading(true);   
+        const handleSubmit= async (e)=>{
+            e.preventDefault();
+            setError(null);
+            setLoading(true);   
 
-        const res = await login(email, password);
-        setLoading(false);
+            const res = await login(email, password);
+            setLoading(false);
 
-        if(res?.success ===false)
-            setError(res.message);
-        else{
-            // Use user from context
-            const roles = user?.roles || []; 
+            if(res?.success ===false)
+                setError(res.message);
+            else{
+                // Use user from context
+                const roles = res.user?.roles || [];
 
-            if (roles.includes("Admin")) {
-                navigate("/admin");
-            } else if (roles.includes("ServiceProvider")) {
-                navigate("/ServiceOwner");
-            } else if (roles.includes("User")) {
-                navigate("/User");
-            }else navigate("/");
-        }
-    };
+                if (roles.includes("Admin")) {
+                    navigate("/admin");
+                } else if (roles.includes("ServiceProvider")) {
+                    navigate("/ServiceOwner");
+                } else if (roles.includes("User")) {
+                    navigate("/");
+                }else navigate("/");
+            }
+        };
 
     
 
@@ -47,12 +48,14 @@ const Login = () => {
         <div className="w-full max-w-md">
             {/* Logo Section */}
             <div className="mb-8">
+            <RouterLink to="/" className="flex items-center cursor-pointer">
             <div className="flex items-center mb-6">
                 <div className="w-10 h-10 bg-gradient-to-r from-purple-400 to-pink-500 rounded-lg mr-3 flex items-center justify-center">
-                <div className="w-5 h-5 bg-white rounded opacity-90"></div>
+                    <div className="w-5 h-5 bg-white rounded opacity-90"></div>
                 </div>
                 <span className="text-2xl font-bold text-gray-900">BookingPro</span>
             </div>
+            </RouterLink>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back</h1>
             <p className="text-gray-600">Sign in to your account to continue managing appointments</p>
             </div>
@@ -148,9 +151,11 @@ const Login = () => {
             <div className="text-center mt-6">
             <p className="text-gray-600 text-sm">
                 Don't have an account?{' '}
+                <Link to="/signup">
                 <button className="text-purple-600 hover:text-purple-800 font-semibold transition-colors">
                 Create Account
                 </button>
+                </Link>
             </p>
             </div>
         </div>

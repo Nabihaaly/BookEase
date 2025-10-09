@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import api from "../../utils/api";
 import { toast } from "react-toastify";
 import { useContext } from "react";
-import { AdminContext } from "../../context/AdminContext";
+import { ServicesContext } from "../../context/ServicesContext";
 
 function AdminServiceOwner() {
-  const {serviceOwners, fetchServiceOwners, setServiceOwners} = useContext(AdminContext);
+  const {serviceOwners, fetchServiceOwners, setServiceOwners} = useContext(ServicesContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 

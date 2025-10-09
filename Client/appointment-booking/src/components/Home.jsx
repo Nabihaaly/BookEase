@@ -1,5 +1,6 @@
 import React from 'react';
 import { Element } from 'react-scroll';
+import { Link } from 'react-router-dom';
 
 function HeroSection() {
     return ( 
@@ -19,9 +20,11 @@ function HeroSection() {
               
               {/* CTA Section */}
               <div className="space-y-4">
+                <Link to="/signup">
                 <button className="bg-gradient-to-r from-purple-400 to-pink-500 text-white px-8 py-4 rounded-full text-lg font-semibold hover:shadow-xl transform hover:scale-105 transition-all duration-300">
                   Get started now!
                 </button>
+                </Link>
                 <p className="text-gray-500 text-sm">
                   No credit card required! Our free plan is free forever.
                 </p>
@@ -74,7 +77,7 @@ function HeroSection() {
         </div>
       </section>
       </Element>
-     );
+    );
 }
 
 export default HeroSection;
