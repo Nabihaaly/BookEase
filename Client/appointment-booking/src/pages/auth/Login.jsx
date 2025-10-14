@@ -53,7 +53,7 @@ const Login = () => {
                 <div className="w-10 h-10 bg-gradient-to-r from-purple-400 to-pink-500 rounded-lg mr-3 flex items-center justify-center">
                     <div className="w-5 h-5 bg-white rounded opacity-90"></div>
                 </div>
-                <span className="text-2xl font-bold text-gray-900">BookingPro</span>
+                <span className="text-2xl font-bold text-gray-900">BookEase</span>
             </div>
             </RouterLink>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back</h1>
@@ -165,7 +165,7 @@ const Login = () => {
         <div className="hidden lg:flex flex-1 bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 items-center justify-center p-12">
         <div className="max-w-lg text-center">
             <h2 className="text-4xl font-bold text-white mb-8">
-            Join 200,000+ businesses<br />running with BookingPro
+            Join 200,000+ businesses<br />running with BookEase
             </h2>
             
             {/* Brand Logos Grid */}
@@ -218,7 +218,7 @@ const Login = () => {
             {/* Testimonial */}
             <div className="mt-12 bg-white/10 backdrop-blur-sm rounded-xl p-6">
             <p className="text-white/90 italic mb-4">
-                "BookingPro transformed our appointment scheduling. Our clients love the convenience and we've reduced no-shows by 40%."
+                "BookEase transformed our appointment scheduling. Our clients love the convenience and we've reduced no-shows by 40%."
             </p>
             <div className="text-white/70 font-semibold">- Sarah M., Spa Owner</div>
             </div>

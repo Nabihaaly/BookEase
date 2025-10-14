@@ -70,7 +70,7 @@ const SignUpPage = () => {
               <div className="w-10 h-10 bg-gradient-to-r from-purple-400 to-pink-500 rounded-lg mr-3 flex items-center justify-center">
                 <div className="w-5 h-5 bg-white rounded opacity-90"></div>
               </div>
-              <span className="text-2xl font-bold text-gray-900">BookingPro</span>
+              <span className="text-2xl font-bold text-gray-900">BookEase</span>
             </div>
           </RouterLink>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Let's create your account</h1>
@@ -239,7 +239,7 @@ const SignUpPage = () => {
               onChange={(e) => setAgreeTerms(e.target.checked)}
             />
             <div className="text-sm text-gray-600">
-              I agree to BookingPro's{' '}
+              I agree to BookEase's{' '}
               <a href="#" className="text-purple-600 hover:text-purple-800 font-medium underline">Terms</a>
               {', '}
               <a href="#" className="text-purple-600 hover:text-purple-800 font-medium underline">Privacy Policy</a>
@@ -278,7 +278,7 @@ const SignUpPage = () => {
         {/* Sign In Link */}
         <div className="text-center mt-6">
           <p className="text-gray-600 text-sm">
-            Already have a BookingPro account?{' '}
+            Already have a BookEase account?{' '}
             <button className="text-purple-600 hover:text-purple-800 font-semibold transition-colors">
               Sign in
             </button>
@@ -337,7 +337,7 @@ const SignUpPage = () => {
 
         {/* Feature Highlight */}
         <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
-          <h3 className="text-white font-semibold mb-3">Why BookingPro?</h3>
+          <h3 className="text-white font-semibold mb-3">Why BookEase?</h3>
           <ul className="text-white/90 text-sm space-y-2 text-left">
             <li>• Free forever plan available</li>
             <li>• No setup fees or long-term contracts</li>

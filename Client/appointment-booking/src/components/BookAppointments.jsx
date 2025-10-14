@@ -10,6 +10,7 @@ const BookAppointmentModal = ({ isOpen, service, onClose }) => {
     const [date,setDate] = useState("");
     const [time,setTime] = useState("");
     const [slots, setSlots] = useState([]);
+    const [loading, setLoading] = useState(false);
 
   // fetch available slots whenever service or date changes
   useEffect(() => {
@@ -24,7 +25,7 @@ const BookAppointmentModal = ({ isOpen, service, onClose }) => {
             return;
         }
         const appointmentDateTime = `${date}T${time}:00`;
-
+        setLoading(true);
         try{
           console.log(service.id);
           const form = {
@@ -38,6 +39,9 @@ const BookAppointmentModal = ({ isOpen, service, onClose }) => {
         }
         catch(err){
             console.error("Booking failed", err);
+        }
+        finally{
+          setLoading(false)
         }
     }
 
@@ -161,7 +165,9 @@ const BookAppointmentModal = ({ isOpen, service, onClose }) => {
             <button onClick={onClose} className="flex-1 px-6 py-2 text-gray-600 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 font-medium transition-colors">
               Cancel
             </button>
-            <button onClick={confirmBooking} className="flex-1 px-6 py-2 text-white bg-purple-600 rounded-xl hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium transition-colors shadow-md">
+            <button onClick={confirmBooking} className="flex-1 px-6 py-2 text-white bg-purple-600 rounded-xl hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium transition-colors shadow-md"
+            disabled={loading}
+            >
               Confirm Booking
             </button>
           </div>

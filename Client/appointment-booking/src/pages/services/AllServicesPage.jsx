@@ -102,7 +102,7 @@ const AllServicesPage = () => {
                     // .filter(s => s.categoryName==="" || s.categoryName === category)
                     .filter(s => category==="" || s.categoryName === category)
                     .map(service => (
-                    <ServiceCard key={service.id} service={service} showOwner={true} onBook={handleBooking} />
+                    <ServiceCard key={service.id} service={service} showOwner={true} onBook={()=>handleBooking(service)} />
                   ))}
                 </div>
               </>

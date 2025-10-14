@@ -249,13 +249,12 @@ export default function OwnerAppointments() {
           </div>
         </div>
 
-        {loading && (
+        {loading ? (
           <div className="p-6 text-center text-gray-500">
-            Loading appointments...
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
+            <p className="mt-4">Loading appointments...</p>
           </div>
-        )}
-
-        {appointments && appointments.length === 0 && !loading ? (
+        ): appointments.length === 0  ? (
           <div className="p-6 text-center text-gray-500">
             No appointments found
           </div>

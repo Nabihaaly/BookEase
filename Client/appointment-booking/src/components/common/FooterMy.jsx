@@ -65,13 +65,13 @@ function Footer() {
               <h3 className="font-bold text-gray-900 mb-4 text-lg">CONTACT US</h3>
               <div className="space-y-3 text-gray-600">
                 <div>
-                  <div className="font-semibold text-gray-900">BookingPro Software Inc.</div>
+                  <div className="font-semibold text-gray-900">BookEase Software Inc.</div>
                   <div>123 Business Avenue</div>
                   <div>New York, NY 10001</div>
                   <div>USA</div>
                 </div>
                 <div>
-                  <a href="mailto:contact@bookingpro.com" className="hover:text-purple-700 transition-colors">contact@bookingpro.com</a>
+                  <a href="mailto:contact@BookEase.com" className="hover:text-purple-700 transition-colors">contact@BookEase.com</a>
                 </div>
                 <div className="pt-4 space-y-2">
                   <a href="#" className="block text-gray-600 hover:text-purple-700 transition-colors">Privacy policy</a>
@@ -85,7 +85,7 @@ function Footer() {
           {/* Footer Bottom */}
           <div className="border-t border-gray-200 mt-12 pt-8 text-center">
             <p className="text-gray-500">
-              Copyright 2024 © BookingPro. All rights reserved.
+              Copyright 2024 © BookEase. All rights reserved.
             </p>
           </div>
         </div>

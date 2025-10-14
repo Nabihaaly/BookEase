@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }) => {
                 
                 // Use user data from signup response (no extra API call needed)
                 setUser(res.data.data.user);
-                    toast.success("Account created successfully! Welcome to BookingPro.", {
+                    toast.success("Account created successfully! Welcome to BookEase.", {
                         position: "top-right",
                         autoClose: 3000,
                         hideProgressBar: false,

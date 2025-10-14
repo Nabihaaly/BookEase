@@ -68,16 +68,16 @@ const ServiceOwnerCard = ({ owner }) => {
         
         <div className="mt-4 flex space-x-2">
           <button 
-            className="flex-1 bg-gray-100 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+            className="flex-1 bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
             onClick={() => {
                 navigate(`/serviceOwners/${owner.id}`)
             }}
           >
             View Services
           </button>
-          <button className="bg-purple-600 text-white py-2 px-6 rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
+          {/* <button className="bg-purple-600 text-white py-2 px-6 rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium">
             Book Now
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

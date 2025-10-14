@@ -15,7 +15,7 @@ function HeroSection() {
                 All-in-one appointment scheduling software
               </h1>
               <p className="text-xl text-gray-600 leading-relaxed"> 
-                BookingPro's appointment booking software saves you time by automating appointment scheduling, client management, marketing, payments, and much more!
+                BookEase's appointment booking software saves you time by automating appointment scheduling, client management, marketing, payments, and much more!
               </p>
               
               {/* CTA Section */}

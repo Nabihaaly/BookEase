@@ -10,7 +10,7 @@ function Testimonials() {
           {/* Section Header */}
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              200,000+ customers trust BookingPro for their appointment scheduling needs
+              200,000+ customers trust BookEase for their appointment scheduling needs
             </h2>
           </div>
           
@@ -22,7 +22,7 @@ function Testimonials() {
               <div className="absolute top-6 left-6 text-6xl text-pink-500 opacity-20 font-serif">"</div>
               <div className="pt-8">
                 <p className="text-gray-700 leading-relaxed mb-6 text-lg">
-                  I am extremely satisfied with BookingPro. The client booking software makes it super easy for my clients to use and book appointments online with me. I especially love their customer service, they always respond in a timely manner at all hours.
+                  I am extremely satisfied with BookEase. The client booking software makes it super easy for my clients to use and book appointments online with me. I especially love their customer service, they always respond in a timely manner at all hours.
                 </p>
                 <p className="text-gray-700 leading-relaxed mb-6">
                   Before the trial was even complete, I had clients scheduled for my service, pay me through Paypal (linked easily) and connect via Zoom (also linked easily).
@@ -42,10 +42,10 @@ function Testimonials() {
               <div className="absolute top-6 left-6 text-6xl text-pink-500 opacity-20 font-serif">"</div>
               <div className="pt-8">
                 <p className="text-gray-700 leading-relaxed mb-6 text-lg">
-                  Great software to market your appointments on multiple platforms. BookingPro's online appointment booking app is easy to use and also available for free!
+                  Great software to market your appointments on multiple platforms. BookEase's online appointment booking app is easy to use and also available for free!
                 </p>
                 <p className="text-gray-700 leading-relaxed mb-6">
-                  I loved the integrations with multiple platforms like Google analytics, adding a book now on Instagram and especially a schedule directly from Google My Business. Liked how BookingPro easily automated my daily tasks by connecting to Zapier! I completely recommend BookingPro.
+                  I loved the integrations with multiple platforms like Google analytics, adding a book now on Instagram and especially a schedule directly from Google My Business. Liked how BookEase easily automated my daily tasks by connecting to Zapier! I completely recommend BookEase.
                 </p>
                 <div className="flex items-center">
                   <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full mr-4"></div>

@@ -38,9 +38,9 @@ function Navbar() {
               </div>
             </RouterLink>
           </div>
-
+{/* (!false) && (!false) */}
           {/* Desktop Nav - Only show for non-admin users */}
-          { !isAdmin || !isOwner &&(
+          { (!isAdmin && !isOwner) &&(
           <div className="hidden lg:block">
             <div className="ml-6 xl:ml-10 flex items-baseline space-x-4 xl:space-x-8">
               <Link to="home" smooth={true} duration={500} offset={-80} className="text-gray-700 hover:text-purple-700 px-2 xl:px-3 py-2 text-sm font-medium transition-colors cursor-pointer whitespace-nowrap">Home</Link>
@@ -139,7 +139,7 @@ function Navbar() {
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="lg:hidden bg-white rounded-xl shadow-lg mx-2 sm:mx-3 mt-2 px-4 sm:px-5 py-3 sm:py-4 space-y-2 sm:space-y-3 border border-gray-100"
           >
-            { !isAdmin || !isOwner && (
+            { (!isAdmin && !isOwner) && (
               <div className="space-y-1 sm:space-y-2">
               <Link
                 to="home"
