@@ -15,7 +15,7 @@ namespace AppointmentBookingSystem.Models
         public decimal Price { get; set; } = 5;
         public int MaxAppointmentsPerDay { get; set; } = 5;
         [Required]
-        public string DayOfWeek { get; set; } = null!;
+        public string[] DaysOfWeek { get; set; } = [];
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
         public string CoverImageUrl { get; set; }

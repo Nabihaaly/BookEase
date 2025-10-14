@@ -1,6 +1,7 @@
 ﻿using AppointmentBookingSystem.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AppointmentBookingSystem.Data
 {
@@ -29,8 +30,6 @@ namespace AppointmentBookingSystem.Data
                 new ServiceCategory { ID = 6, Name = "Home Services", Description = "Cleaning, repairs & maintenance", IconKey = "home" }
             );
 
-
-
             // ✅ Relationships
             modelBuilder.Entity<ServiceOwner>() //Ensures 1 user = 1 business/freelancer profile.
                 .HasOne(sp => sp.User)  
@@ -46,6 +45,15 @@ namespace AppointmentBookingSystem.Data
                 .HasOne(s => s.ServiceOwner)
                 .WithMany(sp => sp.Services)
                 .HasForeignKey(s => s.ServiceOwnerID);
+
+            var stringArrayConversion = new ValueConverter<string[], string>(
+                v=> string.Join( ",", v),
+                v=> v.Split( ',' , StringSplitOptions.RemoveEmptyEntries)
+            );
+
+            modelBuilder.Entity<Service>()
+                .Property(s => s.DaysOfWeek)
+                .HasConversion(stringArrayConversion);
 
             // 👇 Cascade delete on User (Appointments will be deleted when User is deleted)
             modelBuilder.Entity<Appointment>()

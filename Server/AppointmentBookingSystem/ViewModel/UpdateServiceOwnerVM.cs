@@ -13,6 +13,6 @@ namespace AppointmentBookingSystem.ViewModel
         public string Description { get; set; } = null!;
         public bool IsSoloProvider { get; set; }
         public string CoverImageUrl { get; set; }
-        public string Location { get; set; }
+        public string Location { get; set; }    
     }
 }

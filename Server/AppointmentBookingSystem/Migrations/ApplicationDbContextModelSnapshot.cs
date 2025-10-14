@@ -140,7 +140,7 @@ namespace AppointmentBookingSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DayOfWeek")
+                    b.Property<string>("DaysOfWeek")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

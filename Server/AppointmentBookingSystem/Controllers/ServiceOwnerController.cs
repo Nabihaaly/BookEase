@@ -317,7 +317,7 @@ namespace AppointmentBookingSystem.Controllers
 
         // PUT : api/serviceOwner
         [HttpPut]
-        public IActionResult UpdateServiceOwner(int id, [FromBody] UpdateServiceOwnerVM model)
+        public IActionResult UpdateServiceOwner([FromBody] UpdateServiceOwnerVM model)
         {
             BaseResponseModel response = new BaseResponseModel();
             try
@@ -337,6 +337,7 @@ namespace AppointmentBookingSystem.Controllers
 
                 // Update service properties
                 serviceOwner.Name = model.Name;
+                serviceOwner.CategoryID = model.CategoryID;
                 serviceOwner.Description = model.Description;
                 serviceOwner.Location = model.Location;
                 serviceOwner.IsSoloProvider = model.IsSoloProvider;
@@ -350,11 +351,11 @@ namespace AppointmentBookingSystem.Controllers
                 response.Data = serviceOwner;
                 return Ok(response);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 response.Status = false;
-                response.StatusMessage = "Error creating service";
-                return BadRequest(response);
+                response.StatusMessage = "Error creating service ";
+                return BadRequest(response + ex.Message);
             }
         }
 
@@ -416,7 +417,7 @@ namespace AppointmentBookingSystem.Controllers
                     DurationMinutes = model.DurationMinutes,
                     Price = model.Price,
                     MaxAppointmentsPerDay = model.MaxAppointmentsPerDay,
-                    DayOfWeek = model.DayOfWeek,
+                    DaysOfWeek = model.DaysOfWeek,
                     StartTime = model.StartTime,
                     EndTime = model.EndTime,
                     CoverImageUrl = model.CoverImageUrl
@@ -463,7 +464,7 @@ namespace AppointmentBookingSystem.Controllers
                 service.DurationMinutes = model.DurationMinutes;
                 service.Price = model.Price;
                 service.MaxAppointmentsPerDay = model.MaxAppointmentsPerDay;
-                service.DayOfWeek = model.DayOfWeek;
+                service.DaysOfWeek = model.DaysOfWeek;
                 service.StartTime = model.StartTime;
                 service.EndTime = model.EndTime;
                 service.CoverImageUrl = model.CoverImageUrl;
@@ -656,16 +657,19 @@ namespace AppointmentBookingSystem.Controllers
                 {
                     await imageFile.CopyToAsync(stream);
                 }
+                var ProfileImage = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/images/{folderName}/{newFileName}";
 
-                return Ok(new
-                {
-                    ProfileImage = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/images/{folderName}/{newFileName}"
-                });
+                response.Status = true;
+                response.StatusMessage = "Uploaded Successfully";
+                response.Data = ProfileImage;
+                return Ok(response);
 
             }
             catch (Exception ex)
             {
-                return BadRequest("Error Occured");
+                response.Status = false;
+                response.StatusMessage = "Error in uploading image";
+                return BadRequest(response);
             }
         }
     }
