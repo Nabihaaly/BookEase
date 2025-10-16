@@ -126,10 +126,10 @@ const OwnerProfile = () => {
     <>
       {/* Show error */}
       {loading ? (
-        <p className="text-center text-gray-500">
+        <div className="text-center text-gray-500">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
             <p className="mt-4">Loading...</p>
-        </p>
+        </div>
       ) : ownerError ? (
         <p className="text-red-600 text-center font-medium">{ownerError}</p>
       ) : serviceOwner == null ? (

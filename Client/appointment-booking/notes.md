@@ -863,4 +863,49 @@ const handleFieldsChange = (e) => {
 | -------------------------------------------- | ------------------------- | ----- | -------------------------- |
 | `onClick={handleEditService}`                | When clicked              | ✅     | No arguments               |
 | `onClick={handleEditService(service)}`       | Immediately during render | ❌     | Don’t use — runs too early |
-| `onClick={() => handleEditService(service)}` | When clicked              | ✅     | Needs arguments            |
+| `onClick={() => handleEditService(service)}` | When clicked              | ✅     | Needs arguments           
+
+
+# Email 
+1. SMTP — Simple Mail Transfer Protocol
+    SMTP stands for Simple Mail Transfer Protocol, and it’s the standard protocol used to send emails across the internet.
+
+Think of SMTP as the “post office” for emails:
+- You (the sender) connect to an SMTP server (like Gmail’s smtp.gmail.com).
+- You hand over the email (who it’s from, who it’s to, and the content).
+- The server then delivers it to the recipient’s mail server.
+
+3. Socket
+
+A socket is just a communication link between your app and a remote server.
+
+```C#
+client.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+//“Open a secure connection (socket) to Gmail’s SMTP server on port 587.”
+```
+
+| Term                  | Meaning                                  |
+| --------------------- | ---------------------------------------- |
+| **SMTP**              | Protocol for sending emails              |
+| **Socket**            | Connection link to the mail server       |
+| **App Password**      | Special Gmail password for external apps |
+| **ConnectAsync**      | Opens secure connection to SMTP server   |
+| **AuthenticateAsync** | Logs in with your credentials            |
+| **SendAsync**         | Sends the email                          |
+| **DisconnectAsync**   | Closes the connection safely             |
+
+SMTP: 7 bit ASCII protocol, if your msg is 7bit ascii text that's fine, but to send pdf, jpeg or etc you need MIME.
+
+SMTP Relay sy connect krein to it wouldd work
+MailPit -> small, fast, lowm memory, 0 dependency multiplatform email testing tool
+MIME -> multipurpose internet mail extensions.. if your msg is 7bit ascii text that's fine, but to send pdf, jpeg or etc you need MIME. give 2 things only 
+    1. it gives a way to encode just about any kind of data as 7 bit asci and then decode it t the other end 
+    2. way to include more than one piece of content in same msg so single email msg can contain text, html, iamhges etc 
+MIMEKit sy emails build krein 
+MailKit sy ssend krein 
+Local SMTP server, run test troubleshoot 
+
+
+❌ MailKit ≠ APIx   
+✅ MailKit = Library that uses SMTP (email protocol)
+✅ APIs (like SendGrid or Brevo) = Use HTTP requests to send emails

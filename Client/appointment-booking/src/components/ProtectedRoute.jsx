@@ -1,19 +1,30 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from "react-router-dom";
 
-const ProtectedRoute = ({children, roles})=>{
-    const {user, loading} = useContext(AuthContext);
+const ProtectedRoute = ({ children, roles }) => {
+  const { user, loading } = useContext(AuthContext);
+  const location = useLocation();
 
-    if (loading) return <div>Loading...</div>
+  if (loading) return <div>Loading...</div>;
 
-    if (!user) return <Navigate to="/login"/>
+  if (!user) return <Navigate to="/login" />;
 
-    if (roles && (!user.roles || !roles.some((role) => user.roles.includes(role)))) {
-        return <div>Unauthorized (Role mismatch)</div>;
-    }
+  const userRoles = user?.roles || [];
 
-    return children;
+  // ✅ Additional safety: prevent Admin/ServiceOwner from typing wrong URLs
+  if (userRoles.includes("Admin") && !location.pathname.startsWith("/admin")) {
+    return <Navigate to="/admin" replace />;
+  }
+
+  if (
+    roles &&
+    (!userRoles || !roles.some((role) => userRoles.includes(role)))
+  ) {
+    return <Navigate to="/unauthorized" replace />;
+  }
+
+  return children;
 };
 
 export default ProtectedRoute;
