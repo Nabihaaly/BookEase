@@ -6,7 +6,7 @@ A comprehensive full-stack appointment booking platform designed to streamline t
 
 - **User-Friendly Interface**: Intuitive design for both service providers and clients
 - **Real-time Availability**: Live calendar updates showing available time slots
-- **Automated Notifications**: Email/SMS reminders for upcoming appointments
+- **Automated Notifications**: Email reminders for upcoming appointments
 - **Multi-Service Support**: Handle different types of services and time durations
 - **Admin Dashboard**: Complete management system for businesses
 - **Responsive Design**: Works seamlessly on desktop and mobile devices
@@ -21,7 +21,7 @@ A comprehensive full-stack appointment booking platform designed to streamline t
 - **API**: RESTful Web API
 
 ### Frontend (Client)
-- **Framework**: React.js *(To be implemented)*
+- **Framework**: React.js
 - **Styling**: Tailwind CSS
 - **State Management**: Context API
 
@@ -41,6 +41,9 @@ BookEase - Appointment Booking System/
 │   │   └── Areas/
 │   │   └── Controllers/
 │   │   ├── Data/
+│   │   ├── DTO/
+│   │   ├── Migrations/
+│   │   ├── Profiles/
 │   │   ├── Models/
 │   │   └── ViewModel/
 │   ├── AppointmentBookingSystem.sln
@@ -90,7 +93,7 @@ BookEase - Appointment Booking System/
    ```
    The API will be available at `https://localhost:5001`
 
-### Frontend Setup *(Coming Soon)*
+### Frontend Setup
 
 1. **Navigate to client directory**
    ```bash
@@ -120,7 +123,7 @@ View the complete database schema and relationships:
 - **Services**: Specific bookable services with pricing and duration
 - **Appointments**: Booking records with date, time,and status
 - **Reviews**: Customer feedback and ratings for services (In progress)
-- **Notifications**: System alerts and reminders (In progress)
+- **Notifications**: System alerts and reminders 
 
 ## 🔧 Configuration
 
@@ -130,21 +133,6 @@ Create a `.env` file in the server directory:
 DATABASE_CONNECTION_STRING=your_sql_server_connection_string
 JWT_SECRET_KEY=your_jwt_secret_key
 EMAIL_SERVICE_API_KEY=your_email_service_key
-SMS_SERVICE_API_KEY=your_sms_service_key
-```
-
-## 🧪 Testing
-
-### Backend Tests
-```bash
-cd server
-dotnet test
-```
-
-### Frontend Tests *(Coming Soon)*
-```bash
-cd client
-npm test
 ```
 
 ## 📱 API Documentation
@@ -162,11 +150,16 @@ GET  /api/user/appointments             # Get user's own appointments only
 POST /api/user/appointment              # Create new appointment
 PUT  /api/user/appointment/{id}         # Update user's own appointment
 DELETE /api/user/appointment/{id}       # Delete user's own appointment
+```
 
+### Services Endpoints
+```
 Service Discovery
-GET  /api/user/serviceCategories        # Get all available service categories
-GET  /api/user/serviceCategory/{id}     # Get all service providers in category
-GET  /api/user/serviceOwner/{id}        # Get all services of specific service provider
+GET  /api/serviceCategories        # Get all available service categories
+GET  /api/serviceCategory/{id}     # Get all service providers in category
+GET  /api/serviceOwner/{id}        # Get all services of specific service provider
+GET  /api/serviceOwners            # Get all available services owners
+GET  /api/services                 # Get all available services
 ```
 
 ### Admin Endpoints
@@ -190,13 +183,15 @@ GET    /api/admin/dashboard             # Get dashboard statistics
 ### Service Owner Endpoints
 ```
 Service Management
-GET    /api/serviceOwner/services       # Get service owner details + services
+GET    /api/serviceOwner                # Get service owner details
+PUT    /api/serviceOwner                # Edit service owner details
+GET    /api/serviceOwner/services       # Get service owner services
 POST   /api/serviceOwner/service        # Create new service
 PUT    /api/serviceOwner/service/{id}   # Edit service details
 DELETE /api/serviceOwner/service/{id}   # Delete service
 
 Appointment Management
-GET    /api/serviceOwner/appointments   # Get appointments for owner's services
+GET    /api/serviceOwner/appointments     # Get appointments for owner's services
 PUT    /api/serviceOwner/appointment/{id} # Update appointment status
 DELETE /api/serviceOwner/appointment/{id} # Cancel appointment
 ```
@@ -206,9 +201,9 @@ DELETE /api/serviceOwner/appointment/{id} # Cancel appointment
 - ✅ Backend API Development
 - ✅ Database Design & Implementation
 - ✅ Authentication System
-- 🔄 Frontend Development (In Progress)
-- 📋 Testing Suite (Planned)
-- 📋 Documentation (Ongoing)
+- ✅ Frontend Development
+- ✅ Testing Suite 
+- ✅ Documentation 
 
 ## 🤝 Contributing
 
@@ -217,10 +212,6 @@ DELETE /api/serviceOwner/appointment/{id} # Cancel appointment
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👨‍💻 Author
 
