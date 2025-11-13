@@ -123,7 +123,6 @@ View the complete database schema and relationships:
 - **Services**: Specific bookable services with pricing and duration
 - **Appointments**: Booking records with date, time,and status
 - **Reviews**: Customer feedback and ratings for services (In progress)
-- **Notifications**: System alerts and reminders 
 
 ## 🔧 Configuration
 
