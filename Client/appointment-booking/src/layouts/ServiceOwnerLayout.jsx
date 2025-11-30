@@ -2,9 +2,16 @@ import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../components/common/Navbar";
 import OwnerSidebar from "../components/OwnerSidebar";
 import { Outlet } from "react-router-dom";
+import { ServiceOwnerContext } from "../context/ServiceOwnerContext";
 
 const ServiceOwnerLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const {fetchServiceOwner, fetchServices} = useContext(ServiceOwnerContext);
+
+  useEffect(() => {
+  fetchServiceOwner();
+}, [localStorage.getItem("token")]);
+
 
   return (
     <>

@@ -1,8 +1,12 @@
 // AdminSidebar.jsx
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { ServiceOwnerContext } from "../context/ServiceOwnerContext";
 
 export default function OwnerSidebar({ sidebarOpen, setSidebarOpen }) {
+  const {serviceOwner} = useContext(ServiceOwnerContext);
+
   const handleLinkClick = () => {
     if (setSidebarOpen) setSidebarOpen(false);
   };
@@ -32,7 +36,30 @@ export default function OwnerSidebar({ sidebarOpen, setSidebarOpen }) {
                 <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001 1v-6a1 1 0 00-1-1h-2z" />
               </svg>
               MyProfile
+
             </NavLink>
+            {(!serviceOwner || serviceOwner.length === 0) && 
+            <NavLink
+              to="/serviceOwner/createProfile"
+              end
+              className={({ isActive }) =>
+                `flex items-center px-4 py-2 hover:bg-gray-50 rounded-lg transition-colors ${
+                  isActive
+                    ? "text-purple-700 bg-purple-50"
+                    : "text-gray-600 hover:bg-gray-100"
+                }`
+              }
+            >
+              <svg
+                className="w-5 h-5 mr-3"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001 1v-6a1 1 0 00-1-1h-2z" />
+              </svg>
+              CreateProfile
+            </NavLink> 
+            }
 
             <NavLink
               to="/serviceOwner/appointments"
@@ -101,6 +128,20 @@ export default function OwnerSidebar({ sidebarOpen, setSidebarOpen }) {
                 <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
               </svg>
               My Profile
+            </Link>
+            <Link
+              to="/serviceOwner/createProfile"
+              onClick={handleLinkClick}
+              className="flex items-center px-4 py-2 text-purple-700 bg-purple-50 rounded-lg"
+            >
+              <svg
+                className="w-5 h-5 mr-3"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+              </svg>
+              Create Profile
             </Link>
 
             <Link

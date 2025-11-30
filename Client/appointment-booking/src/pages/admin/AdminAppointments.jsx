@@ -175,7 +175,9 @@ export default function AdminAppointments() {
             </label>
             <select 
               value={status}
-              onChange={(e)=> setStatus(e.target.value)}
+              onChange={(e)=> {setStatus(e.target.value)
+                console.log(`${service}`)}
+              }
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
               <option value="">All Status</option>
               <option value="pending">Pending</option>
@@ -213,6 +215,10 @@ export default function AdminAppointments() {
           
 
           {/* Provider filter */}
+          <div className="sm:col-span-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Provider
+            </label>
           <select
             value={provider}
             onChange={(e) => setProvider(e.target.value)}
@@ -231,6 +237,7 @@ export default function AdminAppointments() {
               </>
             )}
           </select>
+          </div>
 
 
           {/* Filter Button */}

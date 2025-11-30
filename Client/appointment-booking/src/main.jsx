@@ -12,5 +12,5 @@ import ServiceProvider from './context/ServicesContext.jsx';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App/>
-  </StrictMode>,
+  </StrictMode>
 )

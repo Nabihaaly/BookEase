@@ -159,6 +159,12 @@ const ServiceOwnerProvider = ({ children }) => {
     }
   };
 
+  const clearServiceOwnerData = () => {
+    setServiceOwner([]);
+    setServices([]);
+  };  
+
+
   return (
     <ServiceOwnerContext.Provider
       value={{
@@ -169,11 +175,12 @@ const ServiceOwnerProvider = ({ children }) => {
         services,
         serviceError,
         updateOwner,
-        editOwnerError,
+        editOwnerError, 
         updateService,
         postService,
         deleteService,
-        fileUpload
+        fileUpload,
+        clearServiceOwnerData
       }}
     >
       {children}

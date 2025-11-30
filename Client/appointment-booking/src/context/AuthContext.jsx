@@ -119,7 +119,7 @@ export const AuthProvider = ({ children }) => {
             }
         } catch (error) {
             console.error("Signup error:", error);
-            const errorMessage = error.response?.data?.message || "Something went wrong during signup";
+            const errorMessage = error.response?.data?.statusMessage || error.response?.data?.message || "Something went wrong during signup";
             toast.error(errorMessage, {
                 position: "top-right",
                 autoClose: 5000,
@@ -144,6 +144,7 @@ export const AuthProvider = ({ children }) => {
         } finally {
             setAccessToken(null);
             setUser(null);
+            clearServiceOwnerData();
         }
     };
 

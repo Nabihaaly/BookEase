@@ -19,9 +19,8 @@
 
 Detailed Steps & Code
 Step 1: Scaffold Identity & Create ApplicationUser
-csharp
-Copy
-Edit
+``` csharp
+
 public class ApplicationUser : IdentityUser
 {
     [Required]
@@ -36,10 +35,10 @@ Copy
 Edit
 dotnet ef migrations add UpdateApplicationUser
 dotnet ef database update
+```
+
 Step 2: Add Static Role Class SD.cs
-csharp
-Copy
-Edit
+```
 public class SD
 {
     public const string Role_Admin = "Admin";
@@ -54,16 +53,14 @@ builder.Services
     .AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+```
 Also add:
 
-csharp
-Copy
-Edit
+```
 builder.Services.AddAuthentication().AddJwtBearer(...); // JWT setup (will explain in step 6)
+```
 Step 4: Create RegisterVM.cs
-csharp
-Copy
-Edit
+```
 public class RegisterVM
 {
     public string Name { get; set; }
@@ -71,10 +68,9 @@ public class RegisterVM
     public string Password { get; set; }
     public string Role { get; set; }
 }
+```
 Step 5: Create AuthController.cs
-csharp
-Copy
-Edit
+```
 [ApiController]
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
@@ -223,7 +219,7 @@ var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
   { "type": "name", "value": "nabiha" },
   { "type": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier", "value": "12345" }
 ]
-
+```
 
 | Claim Type       | Description                                                             | Value    |
 | ---------------- | ----------------------------------------------------------------------- | -------- |
@@ -909,3 +905,9 @@ Local SMTP server, run test troubleshoot
 ❌ MailKit ≠ APIx   
 ✅ MailKit = Library that uses SMTP (email protocol)
 ✅ APIs (like SendGrid or Brevo) = Use HTTP requests to send emails
+
+All services filter in admin
+services count  in admin
+
+2 2 kyun errror ky aaty hain?
+create owner profile

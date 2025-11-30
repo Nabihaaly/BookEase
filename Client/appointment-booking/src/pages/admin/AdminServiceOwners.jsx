@@ -45,29 +45,6 @@ function AdminServiceOwner() {
     }
     fetch();
   }, []);
-  // useEffect(() => {
-  //   async function fetchServiceOwners() {
-  //     try {
-  //       setLoading(true);
-  //       setError(null);
-
-  //       const res = await api.get("/admin/serviceOwners");
-  //       if (res?.data.status) {
-  //         setServiceOwners(res.data.data);
-  //       }
-  //     } catch (err) {
-  //       toast.error("Something went wrong!");
-  //       if (err.response) {
-  //         console.error("Error while fetching Service Owners:", err.response.data);
-  //       } else {
-  //         console.error("Unexpected error while fetching Service Owners:", err);
-  //       }
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-  //   fetchServiceOwners();
-  // }, []);
 
   return (
     <section className="space-y-4 sm:space-y-6">
@@ -99,7 +76,6 @@ function AdminServiceOwner() {
                     <div className="flex-1">
                       <div className="text-sm font-medium text-gray-900">{owner.name}</div>
                       <div className="text-sm text-gray-500 mt-1">{owner.description}</div>
-                      <div className="text-sm text-gray-600 mt-1">{owner.userEmail}</div>
                     </div>
                   </div>
                   
@@ -109,8 +85,8 @@ function AdminServiceOwner() {
                       <div className="text-gray-900">{owner.categoryName}</div>
                     </div>
                     <div>
-                      <span className="font-medium text-gray-600">Services:</span>
-                      <div className="text-gray-900">{owner.serviceCount}</div>
+                      <span className="font-medium text-gray-600">Email:</span>
+                      <div className="text-gray-900">{owner.email}</div>
                     </div>
                   </div>
                   
@@ -145,9 +121,6 @@ function AdminServiceOwner() {
                     Provider Name
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Email
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Category
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -173,9 +146,6 @@ function AdminServiceOwner() {
                           {owner.description}
                         </div>
                       </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {owner.userEmail}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {owner.categoryName}

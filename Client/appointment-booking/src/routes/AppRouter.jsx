@@ -36,6 +36,7 @@ import AdminServiceOwners from "../pages/admin/AdminServiceOwners";
 import ServiceOwnerLayout from "../layouts/ServiceOwnerLayout";
 import OwnerAppointments from "../pages/ServiceOwner/OwnerAppointments";
 import OwnerProfile from "../pages/ServiceOwner/OwnerProfile";
+import CreateProfile from "../pages/ServiceOwner/CreateProfile";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -114,6 +115,7 @@ const router = createBrowserRouter(
       >
         <Route index element={<OwnerProfile />} />
         <Route path="appointments" element={<OwnerAppointments />} />
+        <Route path="createProfile" element={<CreateProfile/>} />
         {/* Catch invalid admin subroutes */}
         <Route path="*" element={<Navigate to="/ServiceOwner" replace />} />
       </Route>
