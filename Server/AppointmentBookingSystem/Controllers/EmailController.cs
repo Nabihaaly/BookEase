@@ -1,94 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Resend;
-using System.ComponentModel.DataAnnotations;
+﻿using AppointmentBookingSystem.Services;
+using Microsoft.AspNetCore.Mvc;
 
-namespace AppointmentBookingSystem.Controllers;
-
-/// <summary />
-[ApiController]
-public class EmailController : ControllerBase
+namespace AppointmentBookingSystem.Controllers
 {
-    private readonly IResend _resend;
-    private readonly ILogger<EmailController> _logger;
-
-
-    /// <summary />
-    public EmailController(IResend resend, ILogger<EmailController> logger)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class EmailController : ControllerBase
     {
-        _resend = resend;
-        _logger = logger;
-    }
+        private readonly IEmailService _emailService;
 
-    [HttpGet]
-    [Route("email/send")]
-    public async Task<string> EmailSendFixed()
-    {
-        /*
-         * 
-         */
-        var message = new EmailMessage();
-        message.From = "onboarding@resend.dev";
-        message.To.Add("nabihaali500@gmail.com");
-        message.Subject = "Hello from Controller API";
-        message.TextBody = "Email using Resend .NET SDK";
-
-        var resp = await _resend.EmailSendAsync(message);
-
-        _logger.LogInformation("Sent email, with Id = {EmailId}", resp.Content);
-
-        return resp.Content.ToString();
-    }
-
-
-    /// <summary>
-    /// Sends an email to specified email address.
-    /// </summary>
-    [HttpPost]
-    [Route("email/send")]
-    public async Task<ActionResult<string>> EmailSend([FromBody] EmailSendRequest request)
-    {
-        /*
-         * Validate
-         */
-        if (ModelState.IsValid == false)
+        public EmailController(IEmailService emailService)
         {
-            return BadRequest();
+            _emailService = emailService;
         }
 
-
-        /*
-         * 
-         */
-        var message = new EmailMessage();
-        message.From = "onboarding@resend.dev";
-        message.To.Add(request.To);
-        message.Subject = request.Subject ?? "Hello from Web Controller";
-        message.TextBody = "Email using Resend .NET SDK";
-
-        var resp = await _resend.EmailSendAsync(message);
-
-        _logger.LogInformation("Sent email to {To}, with Id = {EmailId}", request.To, resp.Content);
-
-        return resp.Content.ToString();
-    }
-
-
-    /// <summary>
-    /// Request payload.
-    /// </summary>
-    public class EmailSendRequest
-    {
-        /// <summary>
-        /// Email address of recipient.
-        /// </summary>
-        [Required]
-        [EmailAddress]
-        public string To { get; set; } = default!;
-
-        /// <summary>
-        /// Subject.
-        /// </summary>
-        [StringLength(100, MinimumLength = 1)]
-        public string? Subject { get; set; }
+        [HttpPost("send")]
+        public async Task<IActionResult> SendEmail([FromQuery] string to, [FromQuery] string subject, [FromQuery] string body)
+        {
+            await _emailService.SendEmailAsync(to, subject, body);
+            return Ok("Email sent successfully!");
+        }
     }
 }

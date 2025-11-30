@@ -259,7 +259,7 @@ namespace AppointmentBookingSystem.Controllers
                         so.IsSoloProvider,
                         UserEmail = so.User.Email,
                         CategoryName = so.Category.Name,
-                        ServiceCount = so.Services.Count(),
+                        ServiceCount = so.Services.Count,
                         //TotalAppointments = so.Services.Sum(s => s.Appointments.Count())
                 }).ToList();
 

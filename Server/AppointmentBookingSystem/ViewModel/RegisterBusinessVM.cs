@@ -4,9 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AppointmentBookingSystem.ViewModel
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class RegisterBusinessVM : ControllerBase
+    public class RegisterBusinessVM 
     {
         public string Name { get; set; } = null!;
         [Required]
@@ -15,7 +13,7 @@ namespace AppointmentBookingSystem.ViewModel
         public bool IsSoloProvider { get; set; }
 
         public string CoverImageUrl { get; set; }
-
+    
         public float Rating { get; set; }
         public string Location { get; set; }
     }

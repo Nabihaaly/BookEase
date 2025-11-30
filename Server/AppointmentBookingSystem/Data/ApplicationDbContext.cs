@@ -12,7 +12,7 @@ namespace AppointmentBookingSystem.Data
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         public DbSet<ServiceCategory> ServiceCategories { get; set; }
-        public DbSet<ServiceOwner> ServiceOwners { get; set; } // ✅ Corrected name
+        public DbSet<ServiceOwner> ServiceOwners { get; set; } 
         public DbSet<Service> Services { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
 

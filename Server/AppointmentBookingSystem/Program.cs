@@ -12,18 +12,15 @@ using AppointmentBookingSystem.Profiles;
 using Humanizer;
 using System.Security.Claims;
 using Microsoft.Extensions.FileProviders;
-//using AppointmentBookingSystem.Utility; // for SD static class
-using Resend;
+using AppointmentBookingSystem.Services;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOptions();
-builder.Services.AddHttpClient<ResendClient>();
-builder.Services.Configure<ResendClientOptions>(o =>
-{
-    o.ApiToken = "re_EognTgmQ_FY3soEZHkphae9JcwsfHoEG9";
-});
-builder.Services.AddTransient<IResend, ResendClient>();
+builder.Configuration.AddEnvironmentVariables();
 
+builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Smtp"));
+builder.Services.AddTransient<IEmailService, EmailService>();
 
 // 📌 STEP 1: Add Services to Container
 builder.Services.AddDbContext<ApplicationDbContext>(
@@ -160,7 +157,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseStaticFiles();   
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseCors();
 app.UseAuthentication();

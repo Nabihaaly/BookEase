@@ -2,12 +2,12 @@
 using AppointmentBookingSystem.DTO;
 using AppointmentBookingSystem.Models;
 using AppointmentBookingSystem.ViewModel;
+using AppointmentBookingSystem.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using Resend;
 
 // 1. USER CONTROLLER - For User Role
 // All CRUD for appointments + GET services
@@ -21,14 +21,13 @@ namespace AppointmentBookingSystem.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private readonly IResend _resend;
+        private readonly IEmailService _emailService;
 
-
-        public UserController(ApplicationDbContext context, IMapper mapper, IResend resend)
+        public UserController(ApplicationDbContext context, IMapper mapper, IEmailService emailService)
         {
             _context = context;
             _mapper = mapper;
-            _resend = resend;
+            _emailService = emailService;
         }
 
         // GET: api/user/appointments - Get user's own appointments only
@@ -75,6 +74,8 @@ namespace AppointmentBookingSystem.Controllers
             try
             {
                 var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+
                 if (!ModelState.IsValid || string.IsNullOrEmpty(currentUserId))
                 {
                     response.Status = false;
@@ -120,32 +121,47 @@ namespace AppointmentBookingSystem.Controllers
                 _context.Appointments.Add(appointment);
                 _context.SaveChanges();
 
-                var message = new EmailMessage();
-                message.From = "BookEase <onboarding@resend.dev>";
-                message.To.Add("nabihaali500@gmail.com"); // or user’s actual email from DB
-                message.Subject = "Appointment Confirmation – BookEase";
+                // Send email notification
+                if (!string.IsNullOrEmpty(userEmail))
+                {
+                    try
+                    {
+                        var emailSubject = "Appointment Confirmation – BookEase";
+                        var emailBody = $@"
+                            <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>
+                                <h2 style='color: #4CAF50;'>Appointment Confirmed ✅</h2>
+                                <p>Dear Customer,</p>
+                                <p>Your appointment has been successfully booked.</p>
+                                
+                                <div style='background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;'>
+                                    <h3 style='margin-top: 0;'>Appointment Details:</h3>
+                                    <ul style='list-style: none; padding: 0;'>
+                                        <li><strong>Service:</strong> {service.Title}</li>
+                                        <li><strong>Provider:</strong> {service.ServiceOwner?.Name}</li>
+                                        <li><strong>Date:</strong> {model.AppointmentDateTime:dddd, dd MMMM yyyy}</li>
+                                        <li><strong>Time:</strong> {model.AppointmentDateTime:hh:mm tt}</li>
+                                        <li><strong>Duration:</strong> {service.DurationMinutes} minutes</li>
+                                    </ul>
+                                </div>
+                                
+                                <p>Please arrive 5-10 minutes before your scheduled time.</p>
+                                <p>If you need to reschedule or cancel, please do so at least 24 hours in advance.</p>
+                                
+                                <p>Thank you for choosing <strong>BookEase</strong>!<br/>
+                                We look forward to serving you.</p>
+                                
+                                <hr style='margin: 20px 0; border: none; border-top: 1px solid #ddd;'>
+                                <p style='font-size: 0.9em; color: gray;'>— The BookEase Team</p>
+                            </div>";
 
-                message.HtmlBody = $@"
-                    <div style='font-family: Arial, sans-serif;'>
-                        <h2>Appointment Confirmed ✅</h2>
-                        <p>Dear User,</p>
-                        <p>Your appointment has been successfully booked.</p>
-
-                        <h3>Appointment Details:</h3>
-                        <ul>
-                            <li><strong>Service:</strong> {service.Title}</li>
-                            <li><strong>Date:</strong> {model.AppointmentDateTime:dddd, dd MMM yyyy}</li>
-                            <li><strong>Time:</strong> {model.AppointmentDateTime:hh\\:mm tt}</li>
-                            <li><strong>Provider:</strong> {service.ServiceOwner?.Name}</li>
-                        </ul>
-
-                        <p>Thank you for choosing <strong>BookEase</strong>!<br/>
-                        We look forward to serving you.</p>
-
-                        <p style='font-size: 0.9em; color: gray;'>— The BookEase Team</p>
-                    </div>";
-
-                await _resend.EmailSendAsync(message);
+                        await _emailService.SendEmailAsync(userEmail, emailSubject, emailBody);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log email error but don't fail the appointment creation
+                        Console.WriteLine($"Email sending failed: {ex.Message}");
+                    }
+                }
 
                 // Load the created appointment with related data for response
                 var createdAppointment = _context.Appointments
@@ -176,6 +192,8 @@ namespace AppointmentBookingSystem.Controllers
             try
             {
                 var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+
                 if ( string.IsNullOrEmpty(currentUserId))
                 {
                     response.Status = false;
@@ -198,9 +216,63 @@ namespace AppointmentBookingSystem.Controllers
                     response.StatusMessage = "Cannot modify confirmed or cancelled appointments";
                     return BadRequest(response);
                 }
+                // Store old date for email
+                var oldDateTime = appointment.AppointmentDateTime;
+
+                var service = _context.Services
+                    .Include(s => s.ServiceOwner)
+                    .FirstOrDefault(s => s.ID == appointment.ServiceID);
+
                 appointment.AppointmentDateTime = model.AppointmentDateTime;
                 _context.Appointments.Update(appointment);
                 _context.SaveChanges();
+
+                // Send rescheduling email notification
+                if (!string.IsNullOrEmpty(userEmail))
+                {
+                    try
+                    {
+                        var emailSubject = "Appointment Rescheduled – BookEase";
+                        var emailBody = $@"
+                            <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>
+                                <h2 style='color: #FF9800;'>Appointment Rescheduled 🔄</h2>
+                                <p>Dear Customer,</p>
+                                <p>Your appointment has been successfully rescheduled.</p>
+                                
+                                <div style='background-color: #fff3e0; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #FF9800;'>
+                                    <h3 style='margin-top: 0;'>Previous Appointment:</h3>
+                                    <ul style='list-style: none; padding: 0;'>
+                                        <li><strong>Date:</strong> {oldDateTime:dddd, dd MMMM yyyy}</li>
+                                        <li><strong>Time:</strong> {oldDateTime:hh:mm tt}</li>
+                                    </ul>
+                                </div>
+
+                                <div style='background-color: #e8f5e9; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #4CAF50;'>
+                                    <h3 style='margin-top: 0;'>New Appointment Details:</h3>
+                                    <ul style='list-style: none; padding: 0;'>
+                                        <li><strong>Service:</strong> {service.Title}</li>
+                                        <li><strong>Provider:</strong> {service.ServiceOwner?.Name}</li>
+                                        <li><strong>Date:</strong> {model.AppointmentDateTime:dddd, dd MMMM yyyy}</li>
+                                        <li><strong>Time:</strong> {model.AppointmentDateTime:hh:mm tt}</li>
+                                        <li><strong>Duration:</strong> {service.DurationMinutes} minutes</li>
+                                    </ul>
+                                </div>
+                                
+                                <p>Please arrive 5-10 minutes before your scheduled time.</p>
+                                
+                                <p>Thank you for choosing <strong>BookEase</strong>!</p>
+                                
+                                <hr style='margin: 20px 0; border: none; border-top: 1px solid #ddd;'>
+                                <p style='font-size: 0.9em; color: gray;'>— The BookEase Team</p>
+                            </div>";
+
+                        _emailService.SendEmailAsync(userEmail, emailSubject, emailBody);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Email sending failed: {ex.Message}");
+                    }
+                }
 
                 var appointmentDto = _mapper.Map<AppointmentDto>(appointment);
 
