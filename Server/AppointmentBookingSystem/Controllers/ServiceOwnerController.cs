@@ -39,6 +39,7 @@ namespace AppointmentBookingSystem.Controllers
             _context = context;
             _mapper = mapper;
         }
+
         //Helper method to get current user's ServiceOwner ID
         private int? GetCurrentServiceOwnerId()
         {
@@ -56,6 +57,8 @@ namespace AppointmentBookingSystem.Controllers
 
 
         //  ===== REGISTER YOUR BUSINESS  =====
+
+
 
         // GET: api/serviceOwner/register-business
         [HttpPost("register-business")]
@@ -280,6 +283,7 @@ namespace AppointmentBookingSystem.Controllers
                 return BadRequest(response);
             }
         }
+
 
         //===== SERVICE OWNER ADD EDIT =====
 
