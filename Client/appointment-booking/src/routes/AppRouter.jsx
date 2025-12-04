@@ -6,7 +6,7 @@ import {
   Navigate
 } from "react-router-dom";
 
-import Landing from "../pages/landing";
+import Landing from "../pages/Landing.jsx";
 import SignUpPage from "../pages/auth/SignUp";
 import Login from "../pages/auth/Login";
 import Unauthorized from "../pages/Unauthorized"
