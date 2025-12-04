@@ -3,14 +3,23 @@ import Navbar from "../components/common/Navbar";
 import OwnerSidebar from "../components/OwnerSidebar";
 import { Outlet } from "react-router-dom";
 import { ServiceOwnerContext } from "../context/ServiceOwnerContext";
+import { AuthContext } from "../context/AuthContext";
+
 
 const ServiceOwnerLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const {fetchServiceOwner, fetchServices} = useContext(ServiceOwnerContext);
+  const {fetchServiceOwner, fetchServices, clearServiceOwnerData} = useContext(ServiceOwnerContext);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
-  fetchServiceOwner();
-}, [localStorage.getItem("token")]);
+    // Clear data first to avoid showing stale data
+    clearServiceOwnerData();
+    
+    // Only fetch if user is authenticated
+    if (user) {
+      fetchServiceOwner();
+    }
+  }, [user]);
 
 
   return (
