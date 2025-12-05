@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import api from "../../utils/api";
 import { toast } from "react-toastify";
 import { useContext } from "react";
-import { ServicesContext } from "../../context/ServicesContext";
+import { AdminContext } from "../../context/AdminContext";
 
 function AdminServiceOwner() {
-  const {serviceOwners, fetchServiceOwners, setServiceOwners} = useContext(ServicesContext);
+  const { serviceOwners, fetchServiceOwners,setServiceOwners} = useContext(AdminContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -16,7 +16,7 @@ function AdminServiceOwner() {
       );
       if (!confirmDelete) return;
 
-      const res = await api.delete(`/admin/serviceOwner/${id}`);
+    const res = await api.delete(`/admin/serviceOwner/${id}`);
       if (res.data.status) {
         setServiceOwners((prev) =>
           prev.filter((serviceOwner) => serviceOwner.id !== id)
@@ -86,7 +86,7 @@ function AdminServiceOwner() {
                     </div>
                     <div>
                       <span className="font-medium text-gray-600">Email:</span>
-                      <div className="text-gray-900">{owner.email}</div>
+                      <div className="text-gray-900">{owner.userEmail}</div>
                     </div>
                   </div>
                   
@@ -124,6 +124,9 @@ function AdminServiceOwner() {
                     Category
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Email
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Services
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -149,6 +152,9 @@ function AdminServiceOwner() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {owner.categoryName}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {owner.userEmail}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {owner.serviceCount}

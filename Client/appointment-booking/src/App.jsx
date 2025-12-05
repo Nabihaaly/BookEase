@@ -4,6 +4,7 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ServiceProvider from "./context/ServicesContext.jsx";
+import AdminProvider from "./context/AdminContext.jsx";
 import AppointmentProvider from "./context/AppointmentsContext.jsx";
 import ServiceOwnerProvider from "./context/ServiceOwnerContext.jsx";
 
@@ -12,6 +13,7 @@ function App() {
     <>
       <AuthProvider>
         <ServiceProvider>
+          <AdminProvider>
           <AppointmentProvider>
             <ServiceOwnerProvider>
               <RouterProvider router={router} />
@@ -30,6 +32,7 @@ function App() {
               />
             </ServiceOwnerProvider>
           </AppointmentProvider>
+          </AdminProvider>
         </ServiceProvider>
       </AuthProvider>
     </>
